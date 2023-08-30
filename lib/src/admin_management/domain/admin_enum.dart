@@ -1,0 +1,5 @@
+
+enum AdminType{
+dataEntry,
+administration
+}
