@@ -6,11 +6,11 @@ part of 'app_user_form.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userFormProviderHash() => r'6f2178d8f37090ed1815af841ba220e262f09c34';
+String _$userFormProviderHash() => r'af4db904493d4226fe946d5b72af5e23a4ed41a5';
 
 /// See also [userFormProvider].
 @ProviderFor(userFormProvider)
-final userFormProviderProvider = AutoDisposeProvider<FormGroup>.internal(
+final userFormProviderProvider = Provider<FormGroup>.internal(
   userFormProvider,
   name: r'userFormProviderProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,6 +20,6 @@ final userFormProviderProvider = AutoDisposeProvider<FormGroup>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef UserFormProviderRef = AutoDisposeProviderRef<FormGroup>;
+typedef UserFormProviderRef = ProviderRef<FormGroup>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

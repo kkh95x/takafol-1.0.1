@@ -5,11 +5,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:takafol/src/chat_management/presentation/pages/donation_messages_page.dart';
+import 'package:takafol/src/core/application/auth/auh_notifer.dart';
 import 'package:takafol/src/core/presentation/components/static_voice_component.dart';
 import 'package:takafol/src/donations_mangement/application/donation_reall_time_provider.dart';
 import 'package:takafol/src/donations_mangement/application/reject_donation_provider.dart';
 import 'package:takafol/src/donations_mangement/domain/donation.dart';
 import 'package:takafol/src/donations_mangement/domain/donation_enum.dart';
+import 'package:takafol/src/notification/application/notification_service.dart';
+import 'package:takafol/src/notification/domain/notification.dart';
+import 'package:takafol/src/user_management/domain/app_user_type.dart';
+import 'package:takafol/src/user_management/domain/user_info.dart';
 import '../widgets/donation_card_widget.dart';
 
 class DetalisComponent extends ConsumerWidget {
@@ -18,6 +23,9 @@ class DetalisComponent extends ConsumerWidget {
   const DetalisComponent({super.key, required this.donation});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    
+
+
     return SafeArea(
       child: SingleChildScrollView(
         physics:const AlwaysScrollableScrollPhysics(),
@@ -40,6 +48,7 @@ class DetalisComponent extends ConsumerWidget {
                           color: Colors.blue.shade50,
                           borderRadius: BorderRadius.circular(50.r)),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,79 +223,337 @@ class DetalisComponent extends ConsumerWidget {
                           ))
                     ],
                   ),
-                Container(
-                  padding: EdgeInsets.all(50.sp),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      if(![DonationState.rejectFromBenfactor,DonationState.rejectFromNeed].contains(donation.currentStatus.name))
-                      Container(
-                        padding: EdgeInsets.all(40.sp),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade50,
-                          borderRadius: BorderRadius.circular(50.r),
-                        ),
-                        child: InkWell(
-                          onTap: () async {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Column(
-                                    children: [Text("إلغاء الحالة"), Divider()],
-                                  ),
-                                  content:
-                                      const Text("هل أنت متأكد من إلغاء الحالة؟"),
-                                  actions: [
-                                    ElevatedButton(
-                                        onPressed: () async {
-                                          await ref.read(rejectDonationProvider(
-                                                  RejectDonationProviderInput(
-                                                      context: context,
-                                                      donation: donation))
-                                              .future);
-                                        },
-                                        child: const Text("نعم")),
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          context.pop();
-                                        },
-                                        child: const Text("لا"))
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          child: const Row(
-                            children: [Text("إلغاء الحالة"), Icon(Icons.close)],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(40.sp),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade50,
-                          borderRadius: BorderRadius.circular(50.r),
-                        ),
-                        child: InkWell(
-                          onTap: () {
-// Navigator.of(context).pushNamed(DonationMessagesPage.routePath,arguments:donation )
-                             context.go(DonationMessagesPage.routePath,extra: donation);
-                          },
-                          child: const Row(
-                            children: [
-                              Text("مراسلة"),
-                              Icon(Icons.message_outlined)
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
+                    getControll( ref,context),
+               
               ],
             )),
       ),
     );
+  }
+
+
+  Widget getControll(WidgetRef ref,BuildContext context){
+     final user=ref.read(authNotiferProvider).currentUser;
+    final isNeedy=user?.accountType==AccountType.needy;
+    // final isWaiting=[DonationState.acypt,DonationState.send].contains(donation.currentStatus.name);
+    final isSend=DonationState.send==donation.currentStatus.name;
+        final isAcypt=DonationState.acypt==donation.currentStatus.name;
+    if(isNeedy){
+    if(isAcypt){
+      return   Container(
+                  padding: EdgeInsets.all(50.sp),
+                  child:  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(40.sp),
+                          margin: EdgeInsets.symmetric(horizontal: 10.w),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
+                          child: InkWell(
+                            onTap: () async {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Column(
+                                      children: [Text("استلام الحالة"), Divider()],
+                                    ),
+                                    content:
+                                        const Text("هل أنت متأكد من انك استلمت الحالة؟"),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () async {
+                                            await ref.read(changeDonationProvider(
+                                                    ChangeDonationProviderInput(
+                                                        context: context,
+                                                        newState: DonationState.recived,
+                                                        donation: donation))
+                                                .future);
+                                          },
+                                          child: const Text("نعم")),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            context.pop();
+                                          },
+                                          child: const Text("لا"))
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: const Row(
+                              children: [Text("انهاء الحالة"), Icon(Icons.close)],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(40.sp),
+                                                    margin: EdgeInsets.symmetric(horizontal: 10.w),
+
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                  // Navigator.of(context).pushNamed(DonationMessagesPage.routePath,arguments:donation )
+                               context.go(DonationMessagesPage.routePath,extra: donation);
+                            },
+                            child: const Row(
+                              children: [
+                                Text("مراسلة"),
+                                Icon(Icons.message_outlined)
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+    }else if(isSend){
+      return  Container(
+                  padding: EdgeInsets.all(50.sp),
+                  child:  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        
+                        Container(
+                                                    margin: EdgeInsets.symmetric(horizontal: 10.w),
+
+                          padding: EdgeInsets.all(40.sp),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
+                          child: InkWell(
+                            onTap: () async {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Column(
+                                      children: [Text("رفض الحالة"), Divider()],
+                                    ),
+                                    content:
+                                        const Text("هل أنت متأكد من رفض الحالة؟"),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () async {
+                                            await ref.read(changeDonationProvider(
+                                                    ChangeDonationProviderInput(
+                                                        context: context,
+                                                        newState: DonationState.rejectFromNeed,
+                                                        donation: donation))
+                                                .future);
+
+                                            ref.read(notificationServiceProvider).createNotification(AppNotification(title: "تم رفض التبرع", body:"قام أحد الستفيدين برفض تبرعك يرجى مراجعة التبرعات لمزيد من التفاصيل", from: UserInformation(
+id: user?.id,
+accountType: user?.accountType,
+birthDay: user?.birthday,
+imageUrl: user?.imageUrl,
+name: user?.secoundName
+), refreanceId: donation.benfactor?.id??"", type: NotificationType.donation, extra: ""));
+                                          },
+                                          child: const Text("نعم")),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            context.pop();
+                                          },
+                                          child: const Text("لا"))
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: const Row(
+                              children: [Text("رفض الحالة"), Icon(Icons.close)],
+                            ),
+                          ),
+                        ),
+                        Container(
+                                                    margin: EdgeInsets.symmetric(horizontal: 10.w),
+
+                          padding: EdgeInsets.all(40.sp),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
+                          child: InkWell(
+                            onTap: () async {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Column(
+                                      children: [Text("قبول الحالة"), Divider()],
+                                    ),
+                                    content:
+                                        const Text("هل أنت متأكد من قبول الحالة؟"),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () async {
+                                            await ref.read(changeDonationProvider(
+                                                    ChangeDonationProviderInput(
+                                                        context: context,
+                                                        newState: DonationState.acypt,
+                                                        donation: donation))
+                                                .future);
+                                                 ref.read(notificationServiceProvider).createNotification(AppNotification(title: "${donation.title} تم قبول التبرع", body:"قام أحد الستفيدين بقبول تبرعك يرجى مراجعة التبرعات لمزيد من التفاصيل", from: UserInformation(
+id: user?.id,
+accountType: user?.accountType,
+birthDay: user?.birthday,
+imageUrl: user?.imageUrl,
+name: user?.secoundName
+), refreanceId: donation.needy?.id??"", type: NotificationType.donation, extra: ""));
+                                          },
+                                          child: const Text("نعم")),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            context.pop();
+                                          },
+                                          child: const Text("لا"))
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: const Row(
+                              children: [Text("قبول الحالة"), Icon(Icons.close)],
+                            ),
+                          ),
+                        ),
+                        
+                        Container(
+                                                    margin: EdgeInsets.symmetric(horizontal: 10.w),
+
+                          padding: EdgeInsets.all(40.sp),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                  // Navigator.of(context).pushNamed(DonationMessagesPage.routePath,arguments:donation )
+                               context.go(DonationMessagesPage.routePath,extra: donation);
+                            },
+                            child: const Row(
+                              children: [
+                                Text("مراسلة"),
+                                Icon(Icons.message_outlined)
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+   
+    }else{
+      return const SizedBox();
+    }
+    }else{
+      if(isSend){
+        return Container(
+                  padding: EdgeInsets.all(50.sp),
+                  child:  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                          
+                           Container(
+                                                      margin: EdgeInsets.symmetric(horizontal: 10.w),
+
+                          padding: EdgeInsets.all(40.sp),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
+                          child: InkWell(
+                            onTap: () async {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Column(
+                                      children: [Text("الغاء الحالة"), Divider()],
+                                    ),
+                                    content:
+                                        const Text("هل أنت متأكد من الغاء الحالة؟"),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () async {
+                                            await ref.read(changeDonationProvider(
+                                                    ChangeDonationProviderInput(
+                                                        context: context,
+                                                        newState: DonationState.rejectFromBenfactor,
+                                                        donation: donation))
+                                                .future);
+                                          },
+                                          child: const Text("نعم")),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            context.pop();
+                                          },
+                                          child: const Text("لا"))
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: const Row(
+                              children: [Text("الغاء الحالة"), Icon(Icons.close)],
+                            ),
+                          ),
+                  
+                        )]),
+                  ));
+                      
+      }else{
+        return Container( padding: EdgeInsets.all(50.sp),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                               
+                                Container(
+                                                            margin: EdgeInsets.symmetric(horizontal: 10.w),
+
+                          padding: EdgeInsets.all(40.sp),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                  // Navigator.of(context).pushNamed(DonationMessagesPage.routePath,arguments:donation )
+                               context.go(DonationMessagesPage.routePath,extra: donation);
+                            },
+                            child: const Row(
+                              children: [
+                                Text("مراسلة"),
+                                Icon(Icons.message_outlined)
+                              ],
+                            ),
+                          ),
+                        )
+                              ],
+                            ),
+                  ),
+        );
+                      
+      }
+    }
+
   }
 }

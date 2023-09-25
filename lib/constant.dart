@@ -9,6 +9,7 @@ class Tabels {
   static const users = "users";
     static const donation = "donations";
      static const messages = "messages";
+       static const notification = "notification";
 }
 
 const donationsList = [

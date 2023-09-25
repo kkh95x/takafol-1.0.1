@@ -14,7 +14,7 @@ class OTPWidget extends ConsumerWidget {
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: ReactivePinPut<String>(
-          formControlName: 'verification.verificationCode',
+          formControlName: 'sginUp.verification.verificationCode',
           length: 6,
           defaultPinTheme: PinTheme(
             height: 68,

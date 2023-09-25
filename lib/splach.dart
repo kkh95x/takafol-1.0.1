@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:takafol/src/core/presentation/components/loading_component.dart';
 
 class Splash extends StatelessWidget {

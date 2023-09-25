@@ -6,11 +6,11 @@ part of 'needy_form.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$needyFormHash() => r'484f30a9474fa7d4a12914ec653511180c682af1';
+String _$needyFormHash() => r'9f0c2c9d1a04b9c9022520973aa11d54db76266f';
 
 /// See also [needyForm].
 @ProviderFor(needyForm)
-final needyFormProvider = AutoDisposeProvider<FormGroup>.internal(
+final needyFormProvider = Provider<FormGroup>.internal(
   needyForm,
   name: r'needyFormProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final needyFormProvider = AutoDisposeProvider<FormGroup>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef NeedyFormRef = AutoDisposeProviderRef<FormGroup>;
+typedef NeedyFormRef = ProviderRef<FormGroup>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

@@ -14,6 +14,8 @@ import 'package:takafol/src/donations_mangement/data/supa_donation_repostory.dar
 import 'package:takafol/src/donations_mangement/domain/donation.dart';
 import 'package:takafol/src/donations_mangement/domain/donation_enum.dart';
 import 'package:takafol/src/donations_mangement/domain/donation_status.dart';
+import 'package:takafol/src/notification/application/notification_service.dart';
+import 'package:takafol/src/notification/domain/notification.dart';
 import 'package:takafol/src/user_management/domain/app_user_model.dart';
 import 'package:takafol/src/user_management/domain/user_info.dart';
 
@@ -75,6 +77,10 @@ final createDonationProvider = FutureProvider.autoDispose
     await ref.read(donationRepositoryProvider).createDonation(donation);
     BotToast.closeAllLoading();
     BotToast.showText(text: "تم إنشاء التبرع بنجاح");
+    
+
+
+
     if (context.mounted) {
       context.pop();
     }
@@ -106,7 +112,14 @@ final createDonationProvider = FutureProvider.autoDispose
     BotToast.closeAllLoading();
     BotToast.showText(text: "تم إرسال التبرع بنجاح");
    params.formGroup.reset();
-          form.control("note.images").value=[];
+          form.control("note.images").value=<String>[];
+ref.read(notificationServiceProvider).createNotification(AppNotification(title: "تبرع جديد", body: "لديك تبرع جديد اذهب لصفحة التبرعات لرؤية التفاصيل", from: UserInformation(
+id: user?.id,
+accountType: user?.accountType,
+birthDay: user?.birthday,
+imageUrl: user?.imageUrl,
+name: user?.secoundName
+), refreanceId: params.needy?.id??"", type: NotificationType.donation, extra: ""));
 
     if (context.mounted) {
       context.pop();

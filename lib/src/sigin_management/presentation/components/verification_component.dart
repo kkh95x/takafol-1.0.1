@@ -15,52 +15,48 @@ class VerificationComponent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ReactiveFormConsumer(builder: (context, formGroup, child) {
-      return ReactiveForm(
-        formGroup: formGroup.control("sginUp") as FormGroup,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            //otp.json
-            LottieBuilder.asset(
-              "assets/json/otp.json",
-              width: 1000.w,
-              height: 1100.h,
-              fit: BoxFit.cover,
-            ),
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          //otp.json
+          LottieBuilder.asset(
+            "assets/json/otp.json",
+            width: 1000.w,
+            height: 1100.h,
+            fit: BoxFit.cover,
+          ),
 
-            Text(
-              "تاكيد رمز التحقق",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            SizedBox(
-              height: 200.h,
-            ),
-            ReactiveFormConsumer(
-              builder: (context, formGroup1, child) {
-                return const OTPWidget();
-              },
-            ),
-            SizedBox(
-              height: 80.h,
-            ),
-            ReactiveFormConsumer(
-              builder: (context, formGroup2, child) {
-                return MainButton(
-                  text: "تاكيد رمز التحقق",
-                  onPressed: () {
-                    ref.read(authNotiferProvider.notifier).checkOtp(formGroup);
-                  },
-                );
-              },
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-          ],
-        ),
+          Text(
+            "تاكيد رمز التحقق",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          SizedBox(
+            height: 200.h,
+          ),
+          const OTPWidget(),
+          SizedBox(
+            height: 80.h,
+          ),
+          ReactiveFormConsumer(
+            builder: (context, formGroup, child) {
+              final otp=formGroup.control("sginUp.verification.verificationCode").value as String?;
+              final isValed=(otp!=null&&otp.length==6);
+              return MainButton(
+
+                text: "تاكيد رمز التحقق",
+                onPressed:isValed? () {
+
+                  ref.read(authNotiferProvider.notifier).checkOtp(otp!);
+                }:null,
+              );
+            },
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+        ],
       );
-    });
+    
   }
 }

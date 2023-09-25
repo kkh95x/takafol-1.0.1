@@ -53,14 +53,12 @@ class SupabasAppUserRepository implements AppUserRepository {
   }
 
   @override
-  Stream<List<AppUser>?> getAllNeedyAsStream() {
-    final response = supabaseClient
+  Future<List<AppUser>?> getAllNeedyAsStream()async {
+   final res=await supabaseClient
         .from(Tabels.users)
         .select<PostgrestList>()
-        .eq("accountType", AccountType.needy.name)
-        .asStream();
-    return response.map<List<AppUser>>(
-        (event) => event.map((e) => AppUser.fromJson(e)).toList());
+        .eq("accountType", AccountType.needy.name);
+    return res.map((e) => AppUser.fromJson(e)).toList();
   }
 
   @override
@@ -139,5 +137,44 @@ class SupabasAppUserRepository implements AppUserRepository {
     streamController.sink.add(AppUser.fromJson(event.first));
   });
   return streamController.stream;
+  }
+  
+  @override
+  Future<void> update(AppUser appUser) async{
+   
+    try {
+      await supabaseClient
+          .from(Tabels.users)
+        
+          .update(appUser.toJson())
+          .eq("id", appUser.id)
+          
+          .single();
+    } catch (e) {
+      rethrow;
+    }
+  
+  }
+  @override
+  Future<void> delete(AppUser appUser) async{
+   
+    try {
+      await supabaseClient
+          .from(Tabels.users)
+        
+          .delete()
+          .eq("id", appUser.id)
+          
+          .single();
+    } catch (e) {
+      rethrow;
+    }
+  
+  }
+  @override
+  Future<String?> getTokenById(String userId) async{
+   final token=await supabaseClient.from(Tabels.users)
+   .select("token").eq("id", userId).single();
+   return token?["token"]?.toString() ;
   }
 }

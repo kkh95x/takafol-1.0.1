@@ -31,7 +31,8 @@ class MessageWidget extends ConsumerWidget {
       padding: EdgeInsets.all(10.sp),
       decoration: BoxDecoration(
       //  color: Colors.blue.shade50,
-       borderRadius: BorderRadius.circular(20.r)
+       borderRadius: BorderRadius.circular(20.r),
+      
       ),
       child: Directionality(
         textDirection:isMine? TextDirection.ltr: TextDirection.rtl,
@@ -46,7 +47,7 @@ class MessageWidget extends ConsumerWidget {
             
               key: UniqueKey(),
               confirmDismiss: (direction)async {
-                if(message.id!=null){
+                if(message.id!=null&&isMine){
         showDialog(context: context, builder: (context) {
           
           return AlertDialog(
@@ -97,7 +98,7 @@ class MessageWidget extends ConsumerWidget {
       return sentMessage(context,   Text(
                       message.text??"",
                       style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.04,
+                        fontSize: 60.sp,
                         color: Colors.black,
                       ),
                     ),message,isMine);
@@ -170,17 +171,17 @@ class MessageWidget extends ConsumerWidget {
               maxWidth:600.w,
               minWidth:500.w,
             ),
-            decoration: const BoxDecoration(
-                color: Color(0xffDCF8C6),
+            decoration:  BoxDecoration(
+                color:isMine?Colors.white: Color(0xffDCF8C6),
                 borderRadius: BorderRadius.all(Radius.circular(5))),
             margin: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.02,
-              vertical: MediaQuery.of(context).size.width * 0.004,
+              horizontal: 20.w,
+              vertical:20.h,
             ),
             padding: EdgeInsets.only(
                 left:20.w,
-                right: MediaQuery.of(context).size.width * 0.015,
-                top: MediaQuery.of(context).size.width * 0.015),
+                right: 20.h,
+                top: 20.h,),
             child:  Directionality(
         textDirection: TextDirection.rtl,
               child: Column(
@@ -298,7 +299,7 @@ Widget voiceCard(BuildContext context,String url,Message message,bool isMine){
                     constraints: BoxConstraints(
                       maxWidth: MediaQuery.of(context).size.width * 0.80,
                     ),
-                    child: StaticVoiceComponent(urlVoice: message.fileUrl,color: const Color(0xffDCF8C6),recordColor: Colors.grey,)
+                    child: StaticVoiceComponent(urlVoice: message.fileUrl,color:isMine?Colors.white: const Color(0xffDCF8C6),recordColor: Colors.grey,)
                     
                    
                   ),

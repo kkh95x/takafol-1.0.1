@@ -23,6 +23,7 @@ class AddNeedyComponent extends ConsumerWidget {
     return ReactiveForm(
         formGroup: form,
         child: SingleChildScrollView(
+        
           child: Column(
             children: [
               _buildGroup(
@@ -58,13 +59,13 @@ class AddNeedyComponent extends ConsumerWidget {
                       "fildType": FildType.text,
                     },
                   ],
-                  form: form.control("guardianFamily") as FormGroup,
+                  form:"guardianFamily.",
                   title: "ولي أمر الأسرة"),
               SizedBox(
                 height: 90.h,
               ),
               _buildGroup(controllers: [
-//
+        //
                 {
                   "controll": "name",
                   "label": " الاسم الأول",
@@ -85,12 +86,12 @@ class AddNeedyComponent extends ConsumerWidget {
                   "label": "مواليد",
                   "fildType": FildType.date,
                 },
-              ], form: form.control("husband") as FormGroup, title: "الزوج/ة"),
+              ], form:"husband.", title: "الزوج/ة"),
               SizedBox(
                 height: 90.h,
               ),
               _buildGroup(controllers: [
-//
+        //
                 {
                   "controll": "boy02",
                   "label": "ذكور تحت السنتين",
@@ -141,11 +142,11 @@ class AddNeedyComponent extends ConsumerWidget {
                   "label": "أناث أكبر من 40 سنة",
                   "fildType": FildType.number,
                 },
-              ], form: form.control("children") as FormGroup, title: "الأولاد"),
+              ], form: "children.", title: "الأولاد"),
               SizedBox(
                 height: 90.h,
               ),
-              _buildGroup(form: form, title: "حالات خاصة", controllers: [
+              _buildGroup(form: "", title: "حالات خاصة", controllers: [
                 {
                   "controll": "orphans",
                   "label": "أيتام",
@@ -161,7 +162,7 @@ class AddNeedyComponent extends ConsumerWidget {
                 height: 90.h,
               ),
               // Shr(offset: offset)
-
+        
               SizedBox(
                 height: 500.h,
                 width: MediaQuery.of(context).size.width,
@@ -172,15 +173,12 @@ class AddNeedyComponent extends ConsumerWidget {
                     SizedBox(
                       height: 500.h,
                       width: MediaQuery.of(context).size.width,
-                      child: ReactiveFormConsumer(
-                          builder: (context, formGroup, child) {
-                        return MapNeedyInputComponent(
-                        
-                          onPressed: (p) async {
-                            formGroup.control("goPoint").value = p;
-                          },
-                        );
-                      }),
+                      child: MapNeedyInputComponent(
+                      
+                        onPressed: (p) async {
+                          form.control("goPoint").value = p;
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -188,7 +186,7 @@ class AddNeedyComponent extends ConsumerWidget {
               SizedBox(
                 height: 90.h,
               ),
-              _buildGroup(form: form, title: "معلومات الحساب", controllers: [
+              _buildGroup(form: "", title: "معلومات الحساب", controllers: [
                 {
                   "controll": "username",
                   "label": "اسم المستخدم",
@@ -211,25 +209,23 @@ class AddNeedyComponent extends ConsumerWidget {
                             context: context, formGroup: form))
                         .future);
                   } else {
-                    BotToast.showText(text: form.status.name);
+                    BotToast.showText(text: form.errors.toString());
                   }
                 },
               ),
-              SizedBox(
-                height: 90.h,
-              ),
+                SizedBox(height: 500.h,)
             ],
           ),
         ));
   }
 
   Widget _buildGroup(
-      {required FormGroup form,
+      {required String form,
       required String title,
       required List<Map<String, Object>> controllers}) {
     List<Widget> fildes = [Text(title)];
     for (final controll in controllers) {
-      fildes.add(_getFilde(controll["controll"] as String,
+      fildes.add(_getFilde("$form${controll["controll"]}" ,
           controll["label"] as String, controll["fildType"] as FildType));
       fildes.add(SizedBox(
         height: 40.h,
@@ -241,12 +237,9 @@ class AddNeedyComponent extends ConsumerWidget {
         color: Colors.blue.shade50,
         borderRadius: BorderRadius.circular(20.r),
       ),
-      child: ReactiveForm(
-        formGroup: form,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: fildes,
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: fildes,
       ),
     );
   }

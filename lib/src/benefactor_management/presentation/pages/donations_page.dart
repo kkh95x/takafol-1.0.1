@@ -37,7 +37,7 @@ class BeneFactorDonationsPage extends ConsumerWidget {
                 const TapBarComponent(
                     title: "التبرعات",
                     formControlName: "tabs",
-                    tabs: ["غير مرسلة", "قيد اللإنتظار", "مُسلمة"]),
+                    tabs: ["غير مرسلة", "قيد اللإنتظار",]),
 
                     Expanded(
                       child: ref.watch(streamMyDonations).when(data: (data) {
@@ -70,8 +70,8 @@ class BeneFactorDonationsPage extends ConsumerWidget {
         return  DonationCreatedComponent(data: data.where((element) => (element.currentStatus.name==DonationState.created)||element.currentStatus.name==DonationState.rejectFromBenfactor,).toList(),);
       case "قيد اللإنتظار":
         return  BenefctorDonationWitingComponent( data: data.where((element) => (element.currentStatus.name==DonationState.send),).toList(),);
-      case "مُسلمة":
-        return  DonationCompleteComponent(data: data.where((element) => (element.currentStatus.name==DonationState.complete),).toList(),);
+      // case "مُسلمة":
+      //   return  DonationCompleteComponent(data: data.where((element) => (element.currentStatus.name==DonationState.complete),).toList(),);
       default:
         return  DonationCreatedComponent(data: data.where((element) => (element.currentStatus.name==DonationState.complete),).toList());
     }

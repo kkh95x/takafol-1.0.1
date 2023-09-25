@@ -6,6 +6,7 @@ import 'package:takafol/src/benefactor_management/application/dontions_providers
 import 'package:takafol/src/core/presentation/components/emtpy_data_component.dart';
 import 'package:takafol/src/core/presentation/components/loading_component.dart';
 import 'package:takafol/src/donations_mangement/application/donation_providers.dart';
+import 'package:takafol/src/donations_mangement/application/donation_reall_time_provider.dart';
 import 'package:takafol/src/donations_mangement/domain/donation.dart';
 import 'package:takafol/src/donations_mangement/presentaion/pages/donation_detals_page.dart';
 import 'package:takafol/src/donations_mangement/presentaion/widgets/donation_card_widget.dart';
@@ -26,7 +27,7 @@ class BenefctorDonationWitingComponent extends ConsumerWidget {
                   const Spacer(),
                   IconButton(
                       onPressed: () async {
-                        await ref.read(waitingDontionProvider.notifier).init();
+                    ref.refresh(streamMyDonations);
                       },
                       icon: const Icon(Icons.refresh))
                 ],
@@ -99,7 +100,7 @@ class BenefctorDonationWitingComponent extends ConsumerWidget {
         onTap: () {
                           ref.read(currentDoationForDetails.notifier).state=data.id?? "";
 
-          context.push(DonationDetalsPage.routPath, extra: data.id);
+          context.push("/benefactor${DonationDetalsPage.routePath}", extra: data.id);
         },
         //     popupMenu: [
         //        PopupMenuItem(

@@ -9,6 +9,10 @@ import 'package:takafol/src/chat_management/domain/message.dart';
 import 'package:takafol/src/chat_management/domain/message_type.dart';
 import 'package:takafol/src/core/application/auth/auh_notifer.dart';
 import 'package:takafol/src/core/application/supabase_storge_service.dart';
+import 'package:takafol/src/donations_mangement/data/supa_donation_repostory.dart';
+import 'package:takafol/src/notification/application/notification_service.dart';
+import 'package:takafol/src/notification/domain/notification.dart';
+import 'package:takafol/src/user_management/domain/app_user_type.dart';
 class AddMessageToDonationProvider{
   final String donationId;
  final FormGroup form;
@@ -43,9 +47,19 @@ final addMessageToDonationProvider=Provider.autoDispose.family<Message,AddMessag
 
     final message=   Message(chatId: donationId, sendDate: DateTime.now(), messageType: messageType,fileUrl: content,text: text,latitude:point?.latitude ,longitude: point?.longitude,senderId: ref.read(authNotiferProvider).currentUser?.id??"",);
     helper( message, ref);
-     
+    ref.read(donationRepositoryProvider).getDonationById(donationId).then((donation) {
+      final user=ref.read(authNotiferProvider).currentUser;
+      final isNeedy=user?.accountType==AccountType.needy;
+ ref.read(notificationServiceProvider).createNotification(AppNotification(title: "رسالة جديدة", body:"لديك رسالة جديدة في التبرع ${donation?.title}", 
+ from:
+ isNeedy?donation!.needy!:donation!.benfactor!,
+ 
+refreanceId:isNeedy? donation.needy?.id??"":donation.benfactor?.id??"", type: NotificationType.donation, extra: ""));
 
-     return  message.copyWith(messageStatus: MessageStatus.created);
+    });
+
+     
+     return  message.copyWith(messageStatus: MessageStatus.created,created_at: DateTime(2040));
     // }
     // final donation=await ref.read(donationRepositoryProvider).getDonationById(donationId);
     // final newDonation=donation.copyWith(messages: [...donation?.messages??[],])

@@ -7,17 +7,20 @@ import 'package:reactive_forms/reactive_forms.dart';
 
 class TapBarComponent extends StatelessWidget {
   const TapBarComponent(
-      {super.key, required this.formControlName, required this.tabs,required this.title});
-  final List<String> tabs;
-  final String formControlName;
+      {super.key, this.showTap=true, this.formControlName,  this.tabs,required this.title});
+  final List<String>? tabs;
+  final String? formControlName;
+  final bool showTap;
   final String title;
   @override
   Widget build(BuildContext context) {
     return ReactiveFormConsumer(builder: (context, formGroup, child) {
       return SizedBox(
         height: 600.h,
+        width: MediaQuery.of(context).size.width,
         child: Stack(
           children: [
+            if(showTap)
             Positioned(
               top: 280.h,
               left: 0,
@@ -27,7 +30,7 @@ class TapBarComponent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   const Spacer(),
-                  for (var x in tabs)
+                  for (var x in tabs!)
                     Expanded(flex: 2, child: _buildTab(x, formGroup)),
                   const Spacer()
                 ],
@@ -58,12 +61,12 @@ class TapBarComponent extends StatelessWidget {
   }
 
   Widget _buildTab(String name, FormGroup formGroup) {
-    final isSelected = name == formGroup.control(formControlName).value;
+    final isSelected = name == formGroup.control(formControlName!).value;
     return GestureDetector(
       onTap: isSelected
           ? null
           : () {
-              formGroup.control(formControlName).value = name;
+              formGroup.control(formControlName!).value = name;
             },
       child: AnimatedSize(
         duration: const Duration(milliseconds: 300),

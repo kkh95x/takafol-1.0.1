@@ -1,3 +1,4 @@
+import 'package:takafol/src/admin_management/application/index_nav_provider.dart';
 import 'package:takafol/src/benefactor_management/application/index_bottom_provider.dart';
 
 
@@ -11,7 +12,7 @@ class AdminBottomNavbarComponent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final index = ref.watch(benefactorBottomNavigationIndexProvider);
+    final index = ref.watch(adminBottomNavigationIndexProvider);
     return ClipPath(
       child: Container(
         height: 190.h,
@@ -23,75 +24,74 @@ class AdminBottomNavbarComponent extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               NavbarIconWidget(
-                  onTap: index != 0
-                      ? () {
+                  onTap: 
+                       () {
                           ref
                               .read(
-                                  benefactorBottomNavigationIndexProvider.notifier)
+                                  adminBottomNavigationIndexProvider.notifier)
                               .updateIndex(0);
                         }
-                      : null,
+                      ,
                   typeIcon:
                       index == 0 ? TypeIcon.selected : TypeIcon.unSelected,
-                  iconPathOn: "assets/svg/chat_list_on.svg",
-                  title: "قريباّ",
-                  iconPathOff: "assets/svg/chat_list_off.svg"),
+                  iconPathOn: "assets/svg/profile_on.svg",
+                  title: "البروفايل",
+                  iconPathOff: "assets/svg/profile_on.svg"),
               NavbarIconWidget(
-                  onTap: index != 1
-                      ? () {
+                  onTap: () {
                           ref
                               .read(
-                                  benefactorBottomNavigationIndexProvider.notifier)
+                                  adminBottomNavigationIndexProvider.notifier)
                               .updateIndex(1);
                         }
-                      : null,
+                    ,
                   typeIcon:
                       index == 1 ? TypeIcon.selected : TypeIcon.unSelected,
-                  iconPathOn: "assets/svg/chat_list_on.svg",
-                  title: "قريباّ",
-                  iconPathOff: "assets/svg/chat_list_off.svg"),
+                  iconPathOn: "assets/svg/patients_on.svg",
+                  title: "المستفيدين",
+                  iconPathOff: "assets/svg/patients_on.svg"),
               NavbarIconWidget(
-                  onTap: index != 2
-                      ? () {
+                  onTap: 
+                     () {
                           ref
                               .read(
-                                  benefactorBottomNavigationIndexProvider.notifier)
+                                  adminBottomNavigationIndexProvider.notifier)
                               .updateIndex(2);
                         }
-                      : null,
+                      ,
                   typeIcon:
                       index == 2 ? TypeIcon.selected : TypeIcon.unSelected,
-                  iconPathOn: "assets/svg/chat_list_on.svg",
-                  title: "قريباّ",
-                  iconPathOff: "assets/svg/chat_list_off.svg"),
-              NavbarIconWidget(
-                  onTap: index != 3
-                      ? () {
-                          ref
-                              .read(
-                                  benefactorBottomNavigationIndexProvider.notifier)
-                              .updateIndex(3);
-                        }
-                      : null,
-                  typeIcon:
-                      index == 3 ? TypeIcon.selected : TypeIcon.unSelected,
-                  iconPathOn: "assets/svg/chat_list_on.svg",
-                  title: "قريباّ",
-                  iconPathOff: "assets/svg/chat_list_off.svg"),
-              NavbarIconWidget(
-                  onTap: index != 4
-                      ? () {
-                          ref
-                              .read(
-                                  benefactorBottomNavigationIndexProvider.notifier)
-                              .updateIndex(4);
-                        }
-                      : null,
-                  typeIcon:
-                      index == 4 ? TypeIcon.selected : TypeIcon.unSelected,
-                  iconPathOn: "assets/svg/chat_list_on.svg",
-                  title: "قريباّ",
-                  iconPathOff: "assets/svg/chat_list_off.svg"),
+                  iconPathOn: "assets/svg/map_on.svg",
+                  title: "الخريطة",
+                  iconPathOff: "assets/svg/map_on.svg"),
+              // NavbarIconWidget(
+              //     onTap: index != 3
+              //         ? () {
+              //             ref
+              //                 .read(
+              //                     adminBottomNavigationIndexProvider.notifier)
+              //                 .updateIndex(3);
+              //           }
+              //         : null,
+              //     typeIcon:
+              //         index == 3 ? TypeIcon.selected : TypeIcon.unSelected,
+              //     iconPathOn: "assets/svg/chat_list_on.svg",
+              //     title: "قريباّ",
+              //     iconPathOff: "assets/svg/chat_list_off.svg"),
+              // NavbarIconWidget(
+              //     onTap: index != 4
+              //         ? () {
+              //             ref
+              //                 .read(
+              //                     adminBottomNavigationIndexProvider.notifier)
+              //                 .updateIndex(4);
+              //           }
+              //         : null,
+              //     typeIcon:
+              //         index == 4 ? TypeIcon.selected : TypeIcon.unSelected,
+              //     iconPathOn: "assets/svg/chat_list_on.svg",
+              //     title: "قريباّ",
+              //     iconPathOff: "assets/svg/chat_list_off.svg"),
             ],
           ),
         ),

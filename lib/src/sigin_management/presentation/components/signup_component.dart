@@ -5,21 +5,16 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:takafol/src/core/application/auth/auh_notifer.dart';
-import 'package:takafol/src/core/application/auth/auth_state.dart';
 import 'package:takafol/src/core/presentation/widgets/login_button_widget.dart';
 import 'package:takafol/src/core/presentation/widgets/phone_picker_widget.dart';
 import 'package:takafol/src/core/presentation/widgets/text_filed_widget.dart';
-import 'package:takafol/src/user_management/application/app_user_form.dart';
 
 class SiginUpComponent extends ConsumerWidget {
   const SiginUpComponent({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ReactiveFormConsumer(builder: (context, userFormGroup, child) {
-      return ReactiveForm(
-        formGroup: userFormGroup.control("sginUp") as FormGroup,
-        child: Column(
+    return  Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -40,7 +35,7 @@ class SiginUpComponent extends ConsumerWidget {
             ),
             ReactiveFormConsumer(
               builder: (context, formGroup, child) {
-                final isPhone = formGroup.control("isPhone").value as bool;
+                final isPhone = formGroup.control("sginUp.isPhone").value as bool;
                 return Column(
                   children: [
                     Container(
@@ -90,7 +85,7 @@ class SiginUpComponent extends ConsumerWidget {
                           Expanded(
                               child: InkWell(
                             onTap: () {
-                              formGroup.control("isPhone").value = false;
+                              formGroup.control("sginUp.isPhone").value = false;
                             },
                             child: Container(
                               height: 200.h,
@@ -114,10 +109,10 @@ class SiginUpComponent extends ConsumerWidget {
                     ),
                     AnimatedCrossFade(
                         firstChild:
-                            const PhonePickerWidget(formControlName: "phone"),
+                            const PhonePickerWidget(formControlName: "sginUp.phone"),
                         secondChild: TextBoxFieldWidget(
-                          controlName: "email",
-                          label: "E-mail",
+                          controlName: "sginUp.email",
+                          label: "اللبريد الإلكتروني",
                           validationMessages: {
                             ValidationMessage.required: (p0) => "الإيميل مطلوب",
                             ValidationMessage.email: (p0) =>
@@ -137,18 +132,18 @@ class SiginUpComponent extends ConsumerWidget {
               height: 100.h,
             ),
             ReactiveFormConsumer(
+            
               builder: (context, formGroup, child) {
-                final isPhone = formGroup.control("isPhone").value;
-                final isPhoneValid = formGroup.control("phone").valid;
-                final isEmailValid = formGroup.control("email").valid;
+                // final isPhone = formGroup.control("sginUp.isPhone").value;
+                // final isPhoneValid = formGroup.control("sginUp.phone").valid;
+                final isEmailValid = formGroup.control("sginUp.email").valid;
+                // final form =formGroup.control("sginUp") as FormGroup;
+                
+                // print("------> $isPhone $isPhoneValid $isEmailValid ${form.valid}");
                 return MainButton(
                   text: "طلب رمز التحقق",
-                  onPressed: isPhone
-                      ? isPhoneValid
-                          ? () => call(formGroup, isPhone, ref)
-                          : null
-                      : isEmailValid
-                          ? () => call(formGroup, isPhone, ref)
+                  onPressed:isEmailValid
+                          ? () => call(formGroup, false, ref)
                           : null,
                 );
               },
@@ -157,9 +152,8 @@ class SiginUpComponent extends ConsumerWidget {
               height: 20.h,
             ),
           ],
-        ),
-      );
-    });
+        )
+      ;
   }
 
   call(FormGroup formGroup, bool isPhone, WidgetRef ref) {

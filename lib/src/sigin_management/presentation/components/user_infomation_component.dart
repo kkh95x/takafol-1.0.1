@@ -21,11 +21,7 @@ class UserInformationComponent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ReactiveFormConsumer(builder: (context, userformGroup, child) {
-      return ReactiveForm(
-        formGroup: userformGroup.control("userImformation") as FormGroup,
-        child: ReactiveFormConsumer(builder: (context, formGroup, child) {
-          return Column(
+    return  Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,7 +30,7 @@ class UserInformationComponent extends ConsumerWidget {
                 height: 30.h,
               ),
               const PhotoUserCompenent(
-                  photoControl: "image", photoUrlControl: "imageUrl"),
+                  photoControl: "userImformation.image", photoUrlControl: "userImformation.imageUrl"),
               Container(
                 margin: EdgeInsets.only(top: 40.h),
                 padding: EdgeInsets.all(40.sp),
@@ -46,7 +42,7 @@ class UserInformationComponent extends ConsumerWidget {
                   children: [
                     const Text("المعلومات الشخصية"),
                     TextBoxFieldWidget(
-                        controlName: "name",
+                        controlName: "userImformation.name",
                         label: "الاسم",
                         validationMessages: {
                           ValidationMessage.required: (p0) => "حقل مطلوب",
@@ -55,7 +51,7 @@ class UserInformationComponent extends ConsumerWidget {
                       height: 30.h,
                     ),
                     TextBoxFieldWidget(
-                        controlName: "surname",
+                        controlName: "userImformation.surname",
                         label: "الكنية",
                         validationMessages: {
                           ValidationMessage.required: (p0) => "حقل مطلوب",
@@ -64,13 +60,13 @@ class UserInformationComponent extends ConsumerWidget {
                       height: 30.h,
                     ),
                     TextBoxFieldWidget(
-                        controlName: "secoundName", label: "اللقب"),
+                        controlName: "userImformation.secoundName", label: "اللقب"),
                     SizedBox(
                       height: 30.h,
                     ),
                     const Text("مواليد"),
                     const ReactiveDatePickerWidget(
-                      dateControl: "birthDay",
+                      dateControl: "userImformation.birthDay",
                       label: "مواليد",
                     )
                   ],
@@ -99,7 +95,7 @@ class UserInformationComponent extends ConsumerWidget {
                             if (location == null) {
                               BotToast.showText(text: "فشل تحديد الموقع");
                             } else {
-                              formGroup.control("location").value = location;
+                              formGroup.control("userImformation.location").value = location;
                             }
                           },
                           icon: const Icon(Icons.my_location),
@@ -107,7 +103,7 @@ class UserInformationComponent extends ConsumerWidget {
                         SizedBox(
                           width: 20.w,
                         ),
-                        Text(formGroup.control("location").value == null
+                        Text(formGroup.control("userImformation.location").value == null
                             ? "لم يتم تحديد الموقع"
                             : "تم تحديد الموقع")
                       ],
@@ -126,7 +122,7 @@ class UserInformationComponent extends ConsumerWidget {
                   children: [
                     const Text("معلومات الحساب"),
                     TextBoxFieldWidget(
-                      controlName: "username",
+                      controlName: "userImformation.username",
                       label: "اسم المستخدم",
                       validationMessages: {
                         ValidationMessage.required: (p0) => "حقل مطلوب",
@@ -137,38 +133,46 @@ class UserInformationComponent extends ConsumerWidget {
                     SizedBox(
                       height: 30.h,
                     ),
-                    TextBoxFieldWidget(
-                      showPassword: () {
-                        formGroup.control("isHidden").value =
-                            !formGroup.control("isHidden").value;
-                      },
-                      isSecure: formGroup.control("isHidden").value,
-                      controlName: "password",
-                      label: "كلمة المرور",
-                      validationMessages: {
-                        ValidationMessage.required: (p0) =>
-                            "كلمة المرور إجبارية",
-                        ValidationMessage.minLength: (p0) =>
-                            "كلمة المرور من ثمانية حقول على الأقل"
-                      },
+                    ReactiveFormConsumer(
+                      builder:(context, formGroup, child)  {
+                        return TextBoxFieldWidget(
+                          showPassword: () {
+                            formGroup.control("userImformation.isHidden").value =
+                                !formGroup.control("userImformation.isHidden").value;
+                          },
+                          isSecure: formGroup.control("userImformation.isHidden").value,
+                          controlName: "userImformation.password",
+                          label: "كلمة المرور",
+                          validationMessages: {
+                            ValidationMessage.required: (p0) =>
+                                "كلمة المرور إجبارية",
+                            ValidationMessage.minLength: (p0) =>
+                                "كلمة المرور من ثمانية حقول على الأقل"
+                          },
+                        );
+                      }
                     ),
                     SizedBox(
                       height: 30.h,
                     ),
-                    TextBoxFieldWidget(
-                        showPassword: () {
-                          formGroup.control("isHidden").value =
-                              !formGroup.control("isHidden").value;
-                        },
-                        isSecure: formGroup.control("isHidden").value,
-                        controlName: "passwordConfirm",
-                        label: "تاكيد كلمة المرور",
-                        validationMessages: {
-                          ValidationMessage.required: (p0) =>
-                              "كلمة المرور إجبارية",
-                          ValidationMessage.mustMatch: (p0) =>
-                              "كلمة المرور متطابقة"
-                        }),
+                    ReactiveFormConsumer(
+                      builder:(context, formGroup, child)  {
+                        return TextBoxFieldWidget(
+                            showPassword: () {
+                              formGroup.control("userImformation.isHidden").value =
+                                  !formGroup.control("userImformation.isHidden").value;
+                            },
+                            isSecure: formGroup.control("userImformation.isHidden").value,
+                            controlName: "userImformation.passwordConfirm",
+                            label: "تاكيد كلمة المرور",
+                            validationMessages: {
+                              ValidationMessage.required: (p0) =>
+                                  "كلمة المرور إجبارية",
+                              ValidationMessage.mustMatch: (p0) =>
+                                  "كلمة المرور متطابقة"
+                            });
+                      }
+                    ),
                   ],
                 ),
               ),
@@ -176,14 +180,15 @@ class UserInformationComponent extends ConsumerWidget {
                 height: 90.h,
               ),
               ReactiveFormConsumer(builder: (context, formGroup, child) {
+                final form=formGroup.control("userImformation")as FormGroup;
                 return MainButton(
                   text: "حفظ",
-                  onPressed: true
+                  onPressed: form.valid
                       ? () {
                           print("--->${formGroup.status}");
                           ref
                               .read(authNotiferProvider.notifier)
-                              .createUserInfo(userformGroup);
+                              .createUserInfo(formGroup);
                         }
                       : null,
                 );
@@ -193,9 +198,8 @@ class UserInformationComponent extends ConsumerWidget {
               ),
             ],
           );
-        }),
-      );
-    });
+        
+      
   }
 
   Future<GeoPoint?> _handleLocation() async {

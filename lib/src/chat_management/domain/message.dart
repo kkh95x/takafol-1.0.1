@@ -19,6 +19,7 @@ class Message with _$Message {
   String? fileUrl,
 double?  latitude ,
 double? longitude,
+DateTime? created_at,
 // required String benfactorId,
 // required String dontionId,
 required String senderId,

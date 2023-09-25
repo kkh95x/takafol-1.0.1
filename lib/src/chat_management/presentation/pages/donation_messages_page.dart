@@ -16,7 +16,9 @@ import 'package:takafol/src/core/application/auth/auh_notifer.dart';
 import 'package:takafol/src/core/presentation/components/emtpy_data_component.dart';
 import 'package:takafol/src/core/presentation/components/loading_component.dart';
 import 'package:takafol/src/donations_mangement/domain/donation.dart';
+import 'package:takafol/src/donations_mangement/presentaion/pages/donation_detals_page.dart';
 import 'package:takafol/src/donations_mangement/presentaion/widgets/donation_card_widget.dart';
+import 'package:takafol/src/needy_mangement/presentation/pages/needy_donations_page.dart';
 import 'package:takafol/src/user_management/application/get_user_as_stream.dart';
 import 'package:takafol/src/user_management/domain/app_user_type.dart';
 import 'dart:math' show cos, sqrt, asin;
@@ -37,13 +39,14 @@ class DonationMessagesPage extends ConsumerWidget {
     controller = ScrollController();
     final user = ref.read(authNotiferProvider).currentUser;
     final isNeedy = user?.accountType == AccountType.needy;
-    final userId = isNeedy ? donation.needy?.id : donation.benfactor?.id;
+    final userId = isNeedy ? donation.benfactor?.id : donation.needy?.id;
     final form = ref.read(addMessageFormProvider);
     final voiceController = ref.read(recordVoiceMessage.notifier);
 
     final refresh = ValueNotifier<int>(0);
     List<Message>? messages;
     return Scaffold(
+      backgroundColor:  Colors.blue.shade50,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: SizedBox(
         height: 50,
@@ -129,7 +132,8 @@ class DonationMessagesPage extends ConsumerWidget {
                               AddMessageToDonationProvider(
                                   donation.id ?? "", form)));
 
-                          messages?.add(dd);
+                          messages?.insert(0,dd);
+
                           refresh.value++;
                           form.reset();
                           if (controller.hasClients) {
@@ -143,7 +147,7 @@ class DonationMessagesPage extends ConsumerWidget {
                               AddMessageToDonationProvider(
                                   donation.id ?? "", form)));
 
-                          messages?.add(dd);
+                          messages?.insert(((messages?.length??1)-1),dd);
                           refresh.value++;
                           form.reset();
                           if (controller.hasClients) {
@@ -194,7 +198,12 @@ class DonationMessagesPage extends ConsumerWidget {
       body: WillPopScope(
         onWillPop: () async {
           controller.dispose();
-          context.go("/benefactor${BeneFactorDonationsPage.routePath}");
+          final user=ref.read(authNotiferProvider).currentUser;
+          if(user?.accountType==AccountType.benfactor){
+          context.go("/benefactor${DonationDetalsPage.routePath}",extra: donation.id);}
+          else if(user?.accountType==AccountType.needy){
+            context.go("/needy${DonationDetalsPage.routePath}",extra: donation.id);
+          }
           form.reset();
           return false;
         },
@@ -218,8 +227,12 @@ class DonationMessagesPage extends ConsumerWidget {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    context.go(
-                                        "/benefactor${BeneFactorDonationsPage.routePath}");
+                                    final user=ref.read(authNotiferProvider).currentUser;
+          if(user?.accountType==AccountType.benfactor){
+          context.go("/benefactor${DonationDetalsPage.routePath}",extra: donation.id);}
+          else if(user?.accountType==AccountType.needy){
+            context.go("/needy${DonationDetalsPage.routePath}",extra: donation.id);
+          }
                                   },
                                   icon: const Icon(
                                     Icons.arrow_back,
@@ -245,8 +258,12 @@ class DonationMessagesPage extends ConsumerWidget {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  context.go(
-                                      "/benefactor${BeneFactorDonationsPage.routePath}");
+                                   final user=ref.read(authNotiferProvider).currentUser;
+          if(user?.accountType==AccountType.benfactor){
+          context.go("/benefactor${DonationDetalsPage.routePath}",extra: donation.id);}
+          else if(user?.accountType==AccountType.needy){
+            context.go("/needy${DonationDetalsPage.routePath}",extra: donation.id);
+          }
                                 },
                                 icon: const Icon(
                                   Icons.arrow_back,
@@ -268,7 +285,7 @@ class DonationMessagesPage extends ConsumerWidget {
                                 width: 20.w,
                               ),
                               Text(
-                                isNeedy
+                                !isNeedy
                                     ? data.needy?.needyNumber ?? ""
                                     : data.secoundName ??
                                         "${data.firstName} ${data.lastName}",
@@ -295,8 +312,11 @@ class DonationMessagesPage extends ConsumerWidget {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  context.go(
-                                      "/benefactor${BeneFactorDonationsPage.routePath}");
+                                   final user=ref.read(authNotiferProvider).currentUser;
+          if(user?.accountType==AccountType.benfactor){
+          context.go("/benefactor${DonationDetalsPage.routePath}",extra: donation.id);}
+          else if(user?.accountType==AccountType.needy){
+            context.go("/needy${DonationDetalsPage.routePath}",extra: donation.id);}
                                 },
                                 icon: const Icon(
                                   Icons.arrow_back,
@@ -314,8 +334,11 @@ class DonationMessagesPage extends ConsumerWidget {
                               children: [
                                 IconButton(
                                   onPressed: () {
-                                    context.go(
-                                        "/benefactor${BeneFactorDonationsPage.routePath}");
+                                     final user=ref.read(authNotiferProvider).currentUser;
+          if(user?.accountType==AccountType.benfactor){
+          context.go("/benefactor${DonationDetalsPage.routePath}",extra: donation.id);}
+          else if(user?.accountType==AccountType.needy){
+            context.go("/needy${DonationDetalsPage.routePath}",extra: donation.id);}
                                   },
                                   icon: const Icon(
                                     Icons.arrow_back,
@@ -372,7 +395,7 @@ class DonationMessagesPage extends ConsumerWidget {
                             valueListenable: refresh,
                             builder: (context, ref, child) {
                               messages?.sort((a, b) =>
-                                  b.sendDate.difference(a.sendDate).inSeconds);
+                                  b.created_at?.difference(a.created_at??DateTime.now()).inSeconds??0);
 
                               return Expanded(
                                 child: ListView.builder(

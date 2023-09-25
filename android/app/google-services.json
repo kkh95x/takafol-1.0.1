@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "882733031604",
+    "project_id": "takafl21",
+    "storage_bucket": "takafl21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:882733031604:android:44a9983640399e2cdb37e1",
+        "android_client_info": {
+          "package_name": "com.example.takafol"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTZ1e8D4CUIVmCohSNQk7AsLuwqCofSog"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

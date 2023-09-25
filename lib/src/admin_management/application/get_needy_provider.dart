@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:takafol/constant.dart';
 import 'package:takafol/src/core/application/auth/auh_notifer.dart';
 // import 'package:takafol/src/user_management/data/parse_server/supabase_app_user_repository.dart';
 import 'package:takafol/src/user_management/data/supabase/supabase_app_user_repository.dart';
@@ -20,6 +21,15 @@ class GetNeedyAdminProvider extends StateNotifier<AsyncValue<List<AppUser>?>> {
     state = const AsyncLoading();
     final user = ref.read(authNotiferProvider).currentUser;
     try {
+    supabaseClient.channel('public:${Tabels.users}').on(RealtimeListenTypes.postgresChanges,
+    ChannelFilter(event: 'INSERT', schema: 'public', table: Tabels.donation),
+    (payload, [ref]) async{
+      final data = await ref
+          .read(appUserRepositoryProvider)
+          .getNeedyByCreatorId(user?.id ?? "");
+     state= AsyncData(data);
+ 
+}).subscribe();
       final data = await ref
           .read(appUserRepositoryProvider)
           .getNeedyByCreatorId(user?.id ?? "");
@@ -43,3 +53,5 @@ class GetNeedyAdminProvider extends StateNotifier<AsyncValue<List<AppUser>?>> {
     // }).subscribe();
   }
 }
+final getAllNeedyFuture=FutureProvider((ref) => ref.read(appUserRepositoryProvider).getAllNeedyAsStream());
+

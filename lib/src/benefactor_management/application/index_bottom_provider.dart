@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:takafol/src/benefactor_management/presentation/pages/benefactor_home_page.dart';
 import 'package:takafol/src/benefactor_management/presentation/pages/donations_page.dart';
 import 'package:takafol/src/benefactor_management/presentation/pages/map_page.dart';
+import 'package:takafol/src/benefactor_management/presentation/pages/profile_benefor_page.dart';
+import 'package:takafol/src/notification/presentation/notification_page.dart';
 
 final benefactorGlobalKey=
     Provider<GlobalKey<NavigatorState>>((ref) => GlobalKey<NavigatorState>());
@@ -21,32 +23,32 @@ class StateBottom extends StateNotifier<int> {
   void updateIndex(int index) {
     state = index;
     switch (index) {
+      // case 0:
+      //   globalKeyNav.currentState?.context.go("/benefactor${BenefactorHomePage.routePath}");
+      //   break;
       case 0:
-        globalKeyNav.currentState?.context.go("/benefactor${BenefactorHomePage.routePath}");
-        break;
-      case 1:
         globalKeyNav.currentState?.context
-            .go("/benefactor${BenefactorHomePage.routePath}");
+            .go("/benefactor${ProfileBeneforPage.routePath}");
 
         break;
-      case 2:
-        globalKeyNav.currentState?.context.go("/benefactor${BenefactorHomePage.routePath}");
+      case 1:
+        globalKeyNav.currentState?.context.go("/benefactor${NotificationPage.routePath}");
         break;
-      case 3:
+      case 2:
         globalKeyNav.currentState?.context
             .go("/benefactor${BenefactorMapPage.routePath}");
 
         break;
-      case 4:
+      case 3:
         globalKeyNav.currentState?.context
             .go( "/benefactor${BeneFactorDonationsPage.routePath}");
         break;
-      case 5:
-        globalKeyNav.currentState?.context.go("/benefactor${BenefactorHomePage.routePath}");
-        break;
-      case 6:
-        globalKeyNav.currentState?.context.go("/benefactor${BenefactorHomePage.routePath}");
-        break;
+      // case 5:
+      //   globalKeyNav.currentState?.context.go("/benefactor${BenefactorHomePage.routePath}");
+      //   break;
+      // case 6:
+      //   globalKeyNav.currentState?.context.go("/benefactor${BenefactorHomePage.routePath}");
+      //   break;
       // Set default page to profile
       default:
         globalKeyNav.currentState?.context

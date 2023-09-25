@@ -3,11 +3,14 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:takafol/src/core/application/auth/auh_notifer.dart';
 import 'package:takafol/src/core/presentation/components/loading_component.dart';
 import 'package:takafol/src/donations_mangement/data/supa_donation_repostory.dart';
 import 'package:takafol/src/donations_mangement/domain/donation.dart';
 import 'package:takafol/src/donations_mangement/domain/donation_enum.dart';
 import 'package:takafol/src/donations_mangement/domain/donation_status.dart';
+import 'package:takafol/src/notification/application/notification_service.dart';
+import 'package:takafol/src/notification/domain/notification.dart';
 import 'package:takafol/src/user_management/domain/app_user_model.dart';
 import 'package:takafol/src/user_management/domain/user_info.dart';
 
@@ -43,7 +46,13 @@ final assgmentDonationToNeedyProvider = FutureProvider.autoDispose
   BotToast.closeAllLoading();
 
   BotToast.showText(text: "تم إرسال التبرع بنجاح");
-
+  final user=ref.read(authNotiferProvider).currentUser;
+ref.read(notificationServiceProvider).createNotification(AppNotification(title: "تبرع جديد", body: "لديك تبرع جديد اذهب لصفحة التبرعات لرؤية التفاصيل", from: UserInformation(
+id: user?.id,
+accountType: user?.accountType,
+birthDay: user?.birthday,
+imageUrl: user?.imageUrl,
+name: user?.secoundName
+), refreanceId: needy.id??"", type: NotificationType.donation, extra: ""));
   return;
-  //TODO Senf notification to needy
 });

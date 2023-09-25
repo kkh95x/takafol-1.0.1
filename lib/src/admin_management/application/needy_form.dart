@@ -2,7 +2,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'needy_form.g.dart';
-@riverpod
+@Riverpod(keepAlive: true)
 FormGroup needyForm(NeedyFormRef ref) => FormGroup({
       "guardianFamily": FormGroup({
         "name": FormControl<String>(validators: [Validators.required]),

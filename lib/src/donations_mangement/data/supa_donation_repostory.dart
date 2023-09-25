@@ -133,7 +133,7 @@ class SupaDonationRepository implements DonationRepository {
   }
   
   @override
-  Stream<List<Donation>?> getDonationsStream(String idBenefactor) {
+  Stream<List<Donation>?> getDonationsbenfactorStream(String idBenefactor) {
    final stream=StreamController<List<Donation>?>();
    supabaseClient.from(Tabels.donation)
    .stream(primaryKey: ['id'])
@@ -144,4 +144,34 @@ class SupaDonationRepository implements DonationRepository {
 
    return stream.stream;
   }
-}
+  
+  @override
+  Stream<List<Donation>?> getDonationsNeedyStream(String needyId) {
+    final stream=StreamController<List<Donation>?>();
+   supabaseClient.from(Tabels.donation)
+   .stream(primaryKey: ['id'])
+   .eq("needy->>id", needyId)
+   .listen((event) {
+    stream.sink.add(event.map((e) => Donation.fromJson(e)).toList());
+   }); 
+
+   return stream.stream;
+  }
+  
+  @override
+  Future<List<Donation>> getAllDonationByNeedyId(String userId)async {
+   try{
+    final respone=await supabaseClient
+    .from(Tabels.donation)
+    .select<PostgrestList>()
+    .eq("needy->>id", userId);
+  
+  return respone.map((e) => Donation.fromJson(e)).toList();
+   }catch(e){
+    debugPrint("---->Error getAllDonationByBenefactorId ${e.toString()}");
+    rethrow;
+   }
+  }
+  
+  }
+

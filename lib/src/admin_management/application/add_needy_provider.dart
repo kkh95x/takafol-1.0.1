@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:takafol/src/admin_management/application/get_needy_provider.dart';
+import 'package:takafol/src/admin_management/application/needy_form.dart';
 import 'package:takafol/src/core/application/auth/auh_notifer.dart';
 import 'package:takafol/src/core/presentation/components/loading_component.dart';
 import 'package:takafol/src/needy_mangement/domain/needy_model.dart';
@@ -118,10 +120,14 @@ final addNeedyProvider = FutureProvider.autoDispose
       .then((
     value,
   ) {
+        // ref.refresh(getAllNeedyFuture);
+
     context.pop();
     BotToast.showText(
         text: "تم أضافة المستخدم بنجاح", contentColor: Colors.green);
     BotToast.closeAllLoading();
+    // ignore: unused_result
+    ref.read(getNeedyStream.notifier).init();
 
     BotToast.showWidget(
       toastBuilder: (cancelFunc) => AlertDialog(
@@ -143,6 +149,7 @@ final addNeedyProvider = FutureProvider.autoDispose
       ),
       
     );
+    ref.read(needyFormProvider).reset();
     return;
   }).onError((error, stackTrace) {
     context.pop();

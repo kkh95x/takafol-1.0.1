@@ -33,6 +33,7 @@ class AppUser with _$AppUser {
     required AccountType accountType,
     String? imageUrl,
     String? creatorId,
+    String? token,
     @Default(true) bool isActive,
 
 

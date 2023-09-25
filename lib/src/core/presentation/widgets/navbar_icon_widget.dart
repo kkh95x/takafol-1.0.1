@@ -32,6 +32,7 @@ class NavbarIconWidget extends StatelessWidget {
               typeIcon == TypeIcon.selected ? iconPathOn : iconPathOff,
               width: 80.w,
               height: 80.h,
+              color: typeIcon == TypeIcon.selected ? const Color(0xffA3C8CF):Colors.white
             ),
             Text(
               title,

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 // import 'package:supabase_flutter/supabase_flutter.dart';
@@ -45,13 +46,24 @@ class UserService {
     await userRepository.createUser(newUser);
     return newUser;
   }
-
+ Future<AppUser?> update(AppUser newUser) async {
+    await userRepository.update(newUser);
+    return newUser;
+  }
   Future<bool> isUsernameUsed(String username) async {
     final usernameUsed = await userRepository.checkUsername(username);
     return usernameUsed;
   }
    Future<bool> isEmailUsed(String email) async {
     return await userRepository.isEmailUsed(email);
+  }
+     Future<bool> setToken(AppUser user) async {
+                final fcmToken = await FirebaseMessaging.instance.getToken();
+                final newUser=user.copyWith(token: fcmToken);
+                await userRepository.update(newUser);
+                return true;
+
+    
   }
 
   Future<AppUser?> getUserById(String id) async {

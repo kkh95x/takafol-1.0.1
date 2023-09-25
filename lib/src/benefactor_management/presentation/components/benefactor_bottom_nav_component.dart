@@ -25,73 +25,75 @@ class BenefactorBottomNavbarComponent extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                // NavbarIconWidget(
+                //     onTap: index != 0
+                //         ? () {
+                //             ref
+                //                 .read(
+                //                     benefactorBottomNavigationIndexProvider.notifier)
+                //                 .updateIndex(0);
+                //           }
+                //         : null,
+                //     typeIcon:
+                //         index == 0 ? TypeIcon.selected : TypeIcon.unSelected,
+                //     iconPathOn: "assets/svg/feeds_on.svg",
+                //     title: "Feeds",
+                //     iconPathOff: "assets/svg/feeds_off.svg"),
                 NavbarIconWidget(
-                    onTap: index != 0
-                        ? () {
+                    onTap: () {
                             ref
                                 .read(
                                     benefactorBottomNavigationIndexProvider.notifier)
                                 .updateIndex(0);
                           }
-                        : null,
+                      ,
                     typeIcon:
                         index == 0 ? TypeIcon.selected : TypeIcon.unSelected,
-                    iconPathOn: "assets/svg/feeds_on.svg",
-                    title: "Feeds",
-                    iconPathOff: "assets/svg/feeds_off.svg"),
+                    iconPathOn: "assets/svg/patients_on.svg",
+                    title: "البروفايل",
+                    iconPathOff: "assets/svg/patients_on.svg"),
+
                 NavbarIconWidget(
-                    onTap: index != 1
-                        ? () {
+                    onTap: 
+                         () {
                             ref
                                 .read(
                                     benefactorBottomNavigationIndexProvider.notifier)
                                 .updateIndex(1);
                           }
-                        : null,
+                        ,
                     typeIcon:
                         index == 1 ? TypeIcon.selected : TypeIcon.unSelected,
-                    iconPathOn: "assets/svg/chat_list_on.svg",
-                    title: "Chats List",
-                    iconPathOff: "assets/svg/chat_list_off.svg"),
+                    iconPathOn: "assets/svg/bell_on.svg",
+                    title: "الإشعارات",
+                    iconPathOff: "assets/svg/bell_off.svg"),
+
                 NavbarIconWidget(
-                    onTap: index != 2
-                        ? () {
+                    onTap: 
+                         () {
                             ref
                                 .read(
                                     benefactorBottomNavigationIndexProvider.notifier)
                                 .updateIndex(2);
                           }
-                        : null,
+                        ,
                     typeIcon:
                         index == 2 ? TypeIcon.selected : TypeIcon.unSelected,
-                    iconPathOn: "assets/svg/sessions_on.svg",
-                    title: "Sessions",
-                    iconPathOff: "assets/svg/sessions_off.svg"),
+                    iconPathOn: "assets/svg/map_on.svg",
+                    title: "الخريطة",                
+                    iconPathOff: "assets/svg/map_off.svg"),
+
+
                 NavbarIconWidget(
-                    onTap: index != 3
-                        ? () {
+                    onTap:  () {
                             ref
                                 .read(
                                     benefactorBottomNavigationIndexProvider.notifier)
                                 .updateIndex(3);
                           }
-                        : null,
+                        ,
                     typeIcon:
                         index == 3 ? TypeIcon.selected : TypeIcon.unSelected,
-                    iconPathOn: "assets/svg/patients_on.svg",
-                    title: "الخريطة",
-                    iconPathOff: "assets/svg/patients_off.svg"),
-                NavbarIconWidget(
-                    onTap: index != 4
-                        ? () {
-                            ref
-                                .read(
-                                    benefactorBottomNavigationIndexProvider.notifier)
-                                .updateIndex(4);
-                          }
-                        : null,
-                    typeIcon:
-                        index == 4 ? TypeIcon.selected : TypeIcon.unSelected,
                     iconPathOn: "assets/svg/cases_on.svg",
                     title: "التبرعات",
                     iconPathOff: "assets/svg/cases_off.svg"),

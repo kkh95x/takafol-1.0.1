@@ -3,13 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 
 class MainButton extends StatelessWidget {
-  const MainButton({super.key, required this.text, this.onPressed});
+  const MainButton({super.key, required this.text, this.onPressed,this.color});
   final void Function()? onPressed;
   final String text;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return SocialLoginButton(
-      backgroundColor: onPressed == null ? Colors.grey : Colors.blue.shade500,
+      backgroundColor:color??( onPressed == null ? Colors.grey : Colors.blue.shade500),
       height: 150.h,
       text: text,
       borderRadius: 80.r,

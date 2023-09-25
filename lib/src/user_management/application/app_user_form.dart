@@ -6,8 +6,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 part 'app_user_form.g.dart';
 
-@riverpod
-FormGroup userFormProvider(userFormProviderRef) => FormGroup({
+@Riverpod(keepAlive: true)
+FormGroup userFormProvider(UserFormProviderRef ref) => FormGroup({
       "login": FormGroup({
         "username": FormControl<String>(validators: [Validators.required]),
         "password": FormControl<String>(

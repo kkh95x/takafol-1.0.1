@@ -10,40 +10,31 @@ import 'package:takafol/src/donations_mangement/domain/donation_enum.dart';
 import 'package:takafol/src/donations_mangement/domain/donation_status.dart';
 import 'package:takafol/src/user_management/domain/app_user_type.dart';
 
-class RejectDonationProviderInput {
+class ChangeDonationProviderInput {
   BuildContext context;
   Donation donation;
-  RejectDonationProviderInput({required this.context, required this.donation});
+  DonationState newState;
+  ChangeDonationProviderInput({required this.context, required this.donation,required this.newState});
 }
 
-final rejectDonationProvider = FutureProvider.autoDispose
-    .family<void, RejectDonationProviderInput>((ref, input) async {
+final changeDonationProvider = FutureProvider.autoDispose
+    .family<void, ChangeDonationProviderInput>((ref, input) async {
   final donation = input.donation;
   final context = input.context;
-  final user = ref.read(authNotiferProvider).currentUser;
+  final newState=input.newState;
   BotToast.showCustomLoading(
     toastBuilder: (cancelFunc) => const LoadingComponent(),
   );
-  if (user?.accountType == AccountType.needy) {
+
     final oldState = donation.currentStatus;
     final newDonation = donation.copyWith(
         status: [...donation.status ?? [], oldState],
         needy: null,
         currentStatus: DonationStatus(
-            name: DonationState.rejectFromNeed, createdDate: DateTime.now()));
+            name:newState, createdDate: DateTime.now()));
 
     await ref.read(donationRepositoryProvider).updateDonation(newDonation);
-  } else {
-    final oldState = donation.currentStatus;
-    final newDonation = donation.copyWith(
-        status: [...donation.status ?? [], oldState],
-        needy: null,
-        currentStatus: DonationStatus(
-            name: DonationState.rejectFromBenfactor,
-            createdDate: DateTime.now()));
-
-    await ref.read(donationRepositoryProvider).updateDonation(newDonation);
-  }
+ 
   BotToast.closeAllLoading();
   BotToast.showText(text: "تم تحديث الحالة");
   if (context.mounted) {

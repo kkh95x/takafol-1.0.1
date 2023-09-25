@@ -13,116 +13,115 @@ class LoginComponent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ReactiveFormConsumer(builder: (context, formGroup, child) {
-      return ReactiveForm(
-        formGroup: formGroup.control("login") as FormGroup,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            LottieBuilder.asset(
-              "assets/json/login.json",
-              width: 1000.w,
-              height: 800.h,
-              fit: BoxFit.cover,
-            ),
-            Text(
-              "تسجيل الدخول",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            SizedBox(
-              height: 100.h,
-            ),
-            TextBoxFieldWidget(
-              controlName: "username",
-              label: "أسم المستخدم",
-              validationMessages: {
-                ValidationMessage.required: (p0) => "أسم المستخدم مطلوب"
-              },
-            ),
-            SizedBox(
-              height: 80.h,
-            ),
-            ReactiveFormConsumer(
-              builder: (context, formGroup, child) {
-                return TextBoxFieldWidget(
-                  showPassword: () {
-                    formGroup.control("isHidden").value =
-                        !formGroup.control("isHidden").value;
-                  },
-                  isSecure: formGroup.control("isHidden").value,
-                  controlName: "password",
-                  label: "كلمة المرور",
-                  validationMessages: {
-                    ValidationMessage.required: (p0) => "كلمة المرور إجبارية",
-                    ValidationMessage.minLength: (p0) =>
-                        "كلمة المرور من ثمانية حقول على الأقل"
-                  },
-                );
-              },
-            ),
-            SizedBox(
-              height: 100.h,
-            ),
-            ReactiveFormConsumer(
-              builder: (context, formGroup2, child) {
-                return MainButton(
-                  text: "تسجيل الدخول",
-                  onPressed: formGroup.valid
-                      ? () {
-                          ref
-                              .read(authNotiferProvider.notifier)
-                              .login(formGroup);
-                        }
-                      : null,
-                );
-              },
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            const Text("أو قم بإنشاء حساب جديد"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.green, shape: BoxShape.circle),
-                  child: IconButton(
-                      onPressed: () {
+    return  Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          LottieBuilder.asset(
+            "assets/json/login.json",
+            width: 1000.w,
+            height: 800.h,
+            fit: BoxFit.cover,
+          ),
+          Text(
+            "تسجيل الدخول",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          SizedBox(
+            height: 100.h,
+          ),
+          TextBoxFieldWidget(
+            controlName: "login.username",
+            label: "أسم المستخدم",
+            validationMessages: {
+              ValidationMessage.required: (p0) => "اسم المستخدم مطلوب"
+            },
+          ),
+          SizedBox(
+            height: 80.h,
+          ),
+          ReactiveFormConsumer(
+            builder: (context, formGroup, child) {
+              return TextBoxFieldWidget(
+                showPassword: () {
+                  formGroup.control("login.isHidden").value =
+                      !formGroup.control("login.isHidden").value;
+                },
+                isSecure: formGroup.control("login.isHidden").value,
+                controlName: "login.password",
+                label: "كلمة المرور",
+                validationMessages: {
+                  ValidationMessage.required: (p0) => "كلمة المرور إجبارية",
+                  ValidationMessage.minLength: (p0) =>
+                      "كلمة المرور من ثمانية حقول على الأقل"
+                },
+              );
+            },
+          ),
+          SizedBox(
+            height: 100.h,
+          ),
+          ReactiveFormConsumer(
+            builder: (context, formGroup, child) {
+              final form =formGroup.control("login") as FormGroup;
+              return MainButton(
+                text: "تسجيل الدخول",
+                onPressed:   form.valid
+                    ?
+                     () {
+                    
                         ref
                             .read(authNotiferProvider.notifier)
-                            .changeState(AuthStatus.signup);
-                      },
-                      icon: Icon(
-                        Icons.phone,
-                        size: 80.sp,
-                        color: Colors.white,
-                      )),
-                ),
-                SizedBox(
-                  width: 40.w,
-                ),
-                Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.red, shape: BoxShape.circle),
-                  child: IconButton(
-                      onPressed: () {
-                        ref
-                            .read(authNotiferProvider.notifier)
-                            .changeState(AuthStatus.signup);
-                      },
-                      icon: Icon(
-                        Icons.email,
-                        size: 80.sp,
-                        color: Colors.white,
-                      )),
-                )
-              ],
-            )
-          ],
-        ),
-      );
-    });
+                            .login(formGroup);
+                      }
+                    : null,
+              );
+            },
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+          const Text("أو قم بإنشاء حساب جديد"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                    color: Colors.green, shape: BoxShape.circle),
+                child: IconButton(
+                    onPressed: () {
+                      ref
+                          .read(authNotiferProvider.notifier)
+                          .changeState(AuthStatus.signup);
+                    },
+                    icon: Icon(
+                      Icons.phone,
+                      size: 80.sp,
+                      color: Colors.white,
+                    )),
+              ),
+              SizedBox(
+                width: 40.w,
+              ),
+              Container(
+                decoration: const BoxDecoration(
+                    color: Colors.red, shape: BoxShape.circle),
+                child: IconButton(
+                    onPressed: () {
+                      ref
+                          .read(authNotiferProvider.notifier)
+                          .changeState(AuthStatus.signup);
+                    },
+                    icon: Icon(
+                      Icons.email,
+                      size: 80.sp,
+                      color: Colors.white,
+                    )),
+              )
+            ],
+          )
+        ],
+      
+    );
   }
 }

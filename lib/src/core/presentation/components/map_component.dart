@@ -8,6 +8,7 @@ class MapComponent extends StatelessWidget {
   const MapComponent(
       {super.key,
       this.point,
+      this.controller,
       this.initZoom = 13,
       this.enableRotationByGesture = true,
       this.onGeoPointClicked,
@@ -18,12 +19,13 @@ class MapComponent extends StatelessWidget {
   final bool enableRotationByGesture;
   final double initZoom;
   final List<AppUser> pepole;
+  final MapController? controller;
   // List<PopupMenuEntry<dynamic>>? popup;
   final void Function(AppUser)? onGeoPointClicked;
   @override
   Widget build(BuildContext context) {
     // default constructor
-    MapController controller = MapController(
+    MapController controller =this.controller?? MapController(
       initPosition: GeoPoint(
           latitude: pepole.first.latitude ?? 47.4358055,
           longitude: pepole.first.longitude ?? 8.4737324),

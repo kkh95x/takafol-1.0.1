@@ -38,6 +38,7 @@ mixin _$AppUser {
   AccountType get accountType => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
   String? get creatorId => throw _privateConstructorUsedError;
+  String? get token => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -69,6 +70,7 @@ abstract class $AppUserCopyWith<$Res> {
       AccountType accountType,
       String? imageUrl,
       String? creatorId,
+      String? token,
       bool isActive});
 
   $NeedyCopyWith<$Res>? get needy;
@@ -107,6 +109,7 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? accountType = null,
     Object? imageUrl = freezed,
     Object? creatorId = freezed,
+    Object? token = freezed,
     Object? isActive = null,
   }) {
     return _then(_value.copyWith(
@@ -182,6 +185,10 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
           ? _value.creatorId
           : creatorId // ignore: cast_nullable_to_non_nullable
               as String?,
+      token: freezed == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String?,
       isActive: null == isActive
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -252,6 +259,7 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       AccountType accountType,
       String? imageUrl,
       String? creatorId,
+      String? token,
       bool isActive});
 
   @override
@@ -290,6 +298,7 @@ class __$$_AppUserCopyWithImpl<$Res>
     Object? accountType = null,
     Object? imageUrl = freezed,
     Object? creatorId = freezed,
+    Object? token = freezed,
     Object? isActive = null,
   }) {
     return _then(_$_AppUser(
@@ -365,6 +374,10 @@ class __$$_AppUserCopyWithImpl<$Res>
           ? _value.creatorId
           : creatorId // ignore: cast_nullable_to_non_nullable
               as String?,
+      token: freezed == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String?,
       isActive: null == isActive
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -395,6 +408,7 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
       required this.accountType,
       this.imageUrl,
       this.creatorId,
+      this.token,
       this.isActive = true});
 
   factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
@@ -438,12 +452,14 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
   @override
   final String? creatorId;
   @override
+  final String? token;
+  @override
   @JsonKey()
   final bool isActive;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AppUser(id: $id, firstName: $firstName, lastName: $lastName, secoundName: $secoundName, birthday: $birthday, username: $username, password: $password, email: $email, latitude: $latitude, longitude: $longitude, bio: $bio, needy: $needy, benefactorModel: $benefactorModel, admin: $admin, isOnline: $isOnline, accountType: $accountType, imageUrl: $imageUrl, creatorId: $creatorId, isActive: $isActive)';
+    return 'AppUser(id: $id, firstName: $firstName, lastName: $lastName, secoundName: $secoundName, birthday: $birthday, username: $username, password: $password, email: $email, latitude: $latitude, longitude: $longitude, bio: $bio, needy: $needy, benefactorModel: $benefactorModel, admin: $admin, isOnline: $isOnline, accountType: $accountType, imageUrl: $imageUrl, creatorId: $creatorId, token: $token, isActive: $isActive)';
   }
 
   @override
@@ -469,6 +485,7 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
       ..add(DiagnosticsProperty('accountType', accountType))
       ..add(DiagnosticsProperty('imageUrl', imageUrl))
       ..add(DiagnosticsProperty('creatorId', creatorId))
+      ..add(DiagnosticsProperty('token', token))
       ..add(DiagnosticsProperty('isActive', isActive));
   }
 
@@ -508,6 +525,7 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
                 other.imageUrl == imageUrl) &&
             (identical(other.creatorId, creatorId) ||
                 other.creatorId == creatorId) &&
+            (identical(other.token, token) || other.token == token) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive));
   }
@@ -534,6 +552,7 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
         accountType,
         imageUrl,
         creatorId,
+        token,
         isActive
       ]);
 
@@ -571,6 +590,7 @@ abstract class _AppUser implements AppUser {
       required final AccountType accountType,
       final String? imageUrl,
       final String? creatorId,
+      final String? token,
       final bool isActive}) = _$_AppUser;
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
@@ -611,6 +631,8 @@ abstract class _AppUser implements AppUser {
   String? get imageUrl;
   @override
   String? get creatorId;
+  @override
+  String? get token;
   @override
   bool get isActive;
   @override

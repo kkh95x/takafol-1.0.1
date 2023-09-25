@@ -25,7 +25,8 @@ mixin _$Message {
   String? get text => throw _privateConstructorUsedError;
   String? get fileUrl => throw _privateConstructorUsedError;
   double? get latitude => throw _privateConstructorUsedError;
-  double? get longitude =>
+  double? get longitude => throw _privateConstructorUsedError;
+  DateTime? get created_at =>
       throw _privateConstructorUsedError; // required String benfactorId,
 // required String dontionId,
   String get senderId => throw _privateConstructorUsedError;
@@ -51,6 +52,7 @@ abstract class $MessageCopyWith<$Res> {
       String? fileUrl,
       double? latitude,
       double? longitude,
+      DateTime? created_at,
       String senderId,
       DateTime sendDate,
       DateTime? recivedDate,
@@ -77,6 +79,7 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? fileUrl = freezed,
     Object? latitude = freezed,
     Object? longitude = freezed,
+    Object? created_at = freezed,
     Object? senderId = null,
     Object? sendDate = null,
     Object? recivedDate = freezed,
@@ -108,6 +111,10 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double?,
+      created_at: freezed == created_at
+          ? _value.created_at
+          : created_at // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       senderId: null == senderId
           ? _value.senderId
           : senderId // ignore: cast_nullable_to_non_nullable
@@ -146,6 +153,7 @@ abstract class _$$_MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
       String? fileUrl,
       double? latitude,
       double? longitude,
+      DateTime? created_at,
       String senderId,
       DateTime sendDate,
       DateTime? recivedDate,
@@ -169,6 +177,7 @@ class __$$_MessageCopyWithImpl<$Res>
     Object? fileUrl = freezed,
     Object? latitude = freezed,
     Object? longitude = freezed,
+    Object? created_at = freezed,
     Object? senderId = null,
     Object? sendDate = null,
     Object? recivedDate = freezed,
@@ -200,6 +209,10 @@ class __$$_MessageCopyWithImpl<$Res>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double?,
+      created_at: freezed == created_at
+          ? _value.created_at
+          : created_at // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       senderId: null == senderId
           ? _value.senderId
           : senderId // ignore: cast_nullable_to_non_nullable
@@ -234,6 +247,7 @@ class _$_Message with DiagnosticableTreeMixin implements _Message {
       this.fileUrl,
       this.latitude,
       this.longitude,
+      this.created_at,
       required this.senderId,
       required this.sendDate,
       this.recivedDate,
@@ -255,6 +269,8 @@ class _$_Message with DiagnosticableTreeMixin implements _Message {
   final double? latitude;
   @override
   final double? longitude;
+  @override
+  final DateTime? created_at;
 // required String benfactorId,
 // required String dontionId,
   @override
@@ -271,7 +287,7 @@ class _$_Message with DiagnosticableTreeMixin implements _Message {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Message(id: $id, chatId: $chatId, text: $text, fileUrl: $fileUrl, latitude: $latitude, longitude: $longitude, senderId: $senderId, sendDate: $sendDate, recivedDate: $recivedDate, messageType: $messageType, messageStatus: $messageStatus)';
+    return 'Message(id: $id, chatId: $chatId, text: $text, fileUrl: $fileUrl, latitude: $latitude, longitude: $longitude, created_at: $created_at, senderId: $senderId, sendDate: $sendDate, recivedDate: $recivedDate, messageType: $messageType, messageStatus: $messageStatus)';
   }
 
   @override
@@ -285,6 +301,7 @@ class _$_Message with DiagnosticableTreeMixin implements _Message {
       ..add(DiagnosticsProperty('fileUrl', fileUrl))
       ..add(DiagnosticsProperty('latitude', latitude))
       ..add(DiagnosticsProperty('longitude', longitude))
+      ..add(DiagnosticsProperty('created_at', created_at))
       ..add(DiagnosticsProperty('senderId', senderId))
       ..add(DiagnosticsProperty('sendDate', sendDate))
       ..add(DiagnosticsProperty('recivedDate', recivedDate))
@@ -305,6 +322,8 @@ class _$_Message with DiagnosticableTreeMixin implements _Message {
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
                 other.longitude == longitude) &&
+            (identical(other.created_at, created_at) ||
+                other.created_at == created_at) &&
             (identical(other.senderId, senderId) ||
                 other.senderId == senderId) &&
             (identical(other.sendDate, sendDate) ||
@@ -327,6 +346,7 @@ class _$_Message with DiagnosticableTreeMixin implements _Message {
       fileUrl,
       latitude,
       longitude,
+      created_at,
       senderId,
       sendDate,
       recivedDate,
@@ -355,6 +375,7 @@ abstract class _Message implements Message {
       final String? fileUrl,
       final double? latitude,
       final double? longitude,
+      final DateTime? created_at,
       required final String senderId,
       required final DateTime sendDate,
       final DateTime? recivedDate,
@@ -375,6 +396,8 @@ abstract class _Message implements Message {
   double? get latitude;
   @override
   double? get longitude;
+  @override
+  DateTime? get created_at;
   @override // required String benfactorId,
 // required String dontionId,
   String get senderId;

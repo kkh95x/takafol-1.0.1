@@ -32,7 +32,29 @@ return stream.stream;
 final isMessagesPageDonation=StateProvider<bool>((ref) => false);
 
 
-final streamMyDonations =StreamProvider((ref) => ref.read(donationRepositoryProvider).getDonationsStream(ref.read(authNotiferProvider).currentUser?.id??""));
+final streamMyDonations =StreamProvider((ref) {
+  final user=ref.read(authNotiferProvider).currentUser;
+  final repostory=ref.read(donationRepositoryProvider);
+   final stream=StreamController<List<Donation>?>();
+Supabase.instance.client.realtime.channel('public:${Tabels.donation}').on(RealtimeListenTypes.postgresChanges,
+    ChannelFilter(event: '*', schema: 'public', table: Tabels.donation,),
+    (payload, [ref]) async{
+      
+      
+     repostory.getAllDonationByBenefactorId(user?.id??"").then((value) {
+     stream.sink.add(value);
+
+     });
+
+}).subscribe();
+
+ ref.read(donationRepositoryProvider).getAllDonationByBenefactorId(user?.id??"").then((value) {
+ stream.sink.add(value);
+ });
+    
+   return stream.stream;
+
+});
 
 
 

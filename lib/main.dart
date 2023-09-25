@@ -8,6 +8,10 @@ import 'package:takafol/constant.dart';
 import 'package:takafol/router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:takafol/src/core/application/auth/auh_notifer.dart';
+import 'firebase_options.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 //
 Future<void> main() async {
@@ -16,7 +20,12 @@ Future<void> main() async {
     url: supaUrl,
     anonKey: supaKey,
   );
-  
+    await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
+  await FirebaseMessaging.instance.setAutoInitEnabled(true);
+
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -29,11 +38,25 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final botToastBuilder = BotToastInit();
+    final user=ref.read(authNotiferProvider).currentUser;
+    if(user!=null){
+       Supabase.instance.client.realtime.channel('public:${Tabels.notification}').on(RealtimeListenTypes.postgresChanges,
+    ChannelFilter(event: 'INSERT', schema: 'public', table: Tabels.notification,filter:"refreanceId=e.${user.id}" ),
+    (payload, [ref]) async{
+      BotToast.showSimpleNotification(title: payload['title'],subTitle: payload['body']);
+
+
+     }).subscribe();
+
+}
+    
+   
+
     return ScreenUtilInit(
         designSize: const Size(1080, 2340),
         minTextAdapt: true,
         splitScreenMode: true,
-       scaleByHeight: true,
+      //  scaleByHeight: true,
         builder: (context, child) {
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,

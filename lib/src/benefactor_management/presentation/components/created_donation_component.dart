@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:takafol/src/benefactor_management/application/dontions_providers.dart';
 import 'package:takafol/src/core/presentation/components/emtpy_data_component.dart';
 import 'package:takafol/src/core/presentation/components/loading_component.dart';
+import 'package:takafol/src/donations_mangement/application/donation_reall_time_provider.dart';
 import 'package:takafol/src/donations_mangement/domain/donation.dart';
 import 'package:takafol/src/donations_mangement/presentaion/widgets/donation_card_widget.dart';
 
@@ -23,7 +24,7 @@ class DonationCreatedComponent extends ConsumerWidget {
                   const Spacer(),
                   IconButton(
                       onPressed: ()async {
-                    
+                    ref.refresh(streamMyDonations);
                       },
                       icon: const Icon(Icons.refresh)),
            

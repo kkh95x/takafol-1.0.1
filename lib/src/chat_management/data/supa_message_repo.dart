@@ -18,6 +18,7 @@ class SupaMessageRepository implements MessageRepository{
   Future<void> createMessage(Message message) async{
    final body=message.toJson();
    body.remove("id");
+   body.remove("created_at");
   await supabaseClient.from(Tabels.messages).insert(body);
 
   }
@@ -30,7 +31,7 @@ class SupaMessageRepository implements MessageRepository{
     .stream(primaryKey: ["id"])
     
     .eq("chatId", donationId,)
-    .order("sendDate",ascending:false )
+    .order("created_at",ascending:false )
     .listen((event) { 
       stream.sink.add(event.map((e) => Message.fromJson(e)).toList());
     });

@@ -34,6 +34,7 @@ _$_AppUser _$$_AppUserFromJson(Map<String, dynamic> json) => _$_AppUser(
       accountType: $enumDecode(_$AccountTypeEnumMap, json['accountType']),
       imageUrl: json['imageUrl'] as String?,
       creatorId: json['creatorId'] as String?,
+      token: json['token'] as String?,
       isActive: json['isActive'] as bool? ?? true,
     );
 
@@ -57,6 +58,7 @@ Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
       'accountType': _$AccountTypeEnumMap[instance.accountType]!,
       'imageUrl': instance.imageUrl,
       'creatorId': instance.creatorId,
+      'token': instance.token,
       'isActive': instance.isActive,
     };
 

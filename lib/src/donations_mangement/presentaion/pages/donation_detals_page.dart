@@ -9,8 +9,8 @@ import 'package:takafol/src/donations_mangement/presentaion/components/detals_co
 
 class DonationDetalsPage extends ConsumerWidget {
   const DonationDetalsPage({super.key, required this.donationId});
-  static String get routName => "donation-detalis";
-  static String get routPath => "/$routName";
+  static String get routeName => "donation-detalis";
+  static String get routePath => "/$routeName";
   final String donationId;
   @override
   Widget build(BuildContext context, WidgetRef ref) {

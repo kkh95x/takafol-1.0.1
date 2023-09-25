@@ -6,11 +6,15 @@ abstract class DonationRepository {
     Future<List<Donation>?> getWaitingDonations(String benefactorId);
         Future<List<Donation>?> getCompelteDonations(String benefactorId);
 Future<List<Donation>>getAllDonationByBenefactorId(String userId);
+Future<List<Donation>>getAllDonationByNeedyId(String userId);
+
 
     Future<bool> isHaveCreatedDonations(String benefactorId);
       Future<void> updateDonation(Donation donation);
           Future<Donation?> getDonationById(String id);
-                    Stream<List<Donation>?> getDonationsStream(String idBenefactor);
+                    Stream<List<Donation>?> getDonationsbenfactorStream(String idBenefactor);
+                                        Stream<List<Donation>?> getDonationsNeedyStream(String needyId);
+
 
 
 

@@ -11,7 +11,6 @@ final mark = StateProvider<List<StaticPositionGeoPoint>?>((ref) => null);
 
 class MapNeedyInputComponent extends ConsumerWidget {
   const MapNeedyInputComponent({super.key, required this.onPressed});
-
   final void Function(GeoPoint)? onPressed;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,6 +30,10 @@ class MapNeedyInputComponent extends ConsumerWidget {
 //            unFollowUser: false,
 //         )
 // )
+final controll=ref.read(controller);
+
+  controll.myLocation();
+
 
     return ClipRRect(
         borderRadius: BorderRadius.circular(50.r),
@@ -38,14 +41,13 @@ class MapNeedyInputComponent extends ConsumerWidget {
           color: Colors.blue.shade50,
           child: Stack(
             children: [
-              if (ref.watch(poiintState) != null)
                 Stack(
                   children: [
                     AbsorbPointer(
                       absorbing: true,
                       child: OSMFlutter(
                         
-                          controller: ref.read(controller),
+                          controller: controll,
                           mapIsLoading: Container(
                             color: Colors.blue.shade50,
                             alignment: Alignment.center,
@@ -89,11 +91,8 @@ class MapNeedyInputComponent extends ConsumerWidget {
                               ),
                     )
                   ],
-                )
-              else
-                const Center(
-                  child: Text("لم يتم  تحديد موقع المستخدم"),
                 ),
+             
               Positioned(
                   bottom: 10,
                   right: 10,
@@ -108,9 +107,10 @@ class MapNeedyInputComponent extends ConsumerWidget {
                               context: context,
                               radius: 10.r,
                               title: "تحديد موقع المستخدم",
-                              zoomOption: const ZoomOption(initZoom: 10),
+                              zoomOption: const ZoomOption(initZoom: 15),
                               contentPadding: EdgeInsets.all(30.sp),
-                              initPosition: ref.read(poiintState) ??
+                              
+                              initPosition: ref.watch(poiintState) ??
                                   GeoPoint(
                                       latitude: 36.58533090,
                                       longitude: 37.05654890),
