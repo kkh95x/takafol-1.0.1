@@ -32,34 +32,61 @@ return stream.stream;
 final isMessagesPageDonation=StateProvider<bool>((ref) => false);
 
 
-final streamMyDonations =StreamProvider((ref) {
-  final user=ref.read(authNotiferProvider).currentUser;
-  final repostory=ref.read(donationRepositoryProvider);
-   final stream=StreamController<List<Donation>?>();
-Supabase.instance.client.realtime.channel('public:${Tabels.donation}').on(RealtimeListenTypes.postgresChanges,
-    ChannelFilter(event: '*', schema: 'public', table: Tabels.donation,),
-    (payload, [ref]) async{
+final streamMyDonations =StateNotifierProvider<SteamDontaionNotifiner,AsyncValue<List<Donation>>>((ref) {
+//   final user=ref.read(authNotiferProvider).currentUser;
+//   final repostory=ref.read(donationRepositoryProvider);
+//    final stream=StreamController<List<Donation>?>();
+//     Supabase.instance.client.realtime.channel('public:${Tabels.donation}').on(RealtimeListenTypes.postgresChanges,
+//     ChannelFilter(event: '*', schema: 'public', table: Tabels.donation,),
+//     (payload, [ref]) async{
       
       
-     repostory.getAllDonationByBenefactorId(user?.id??"").then((value) {
-     stream.sink.add(value);
+//      repostory.getAllDonationByBenefactorId(user?.id??"").then((value) {
+//      stream.sink.add(value);
 
-     });
+//      });
 
-}).subscribe();
+// }).subscribe();
 
- ref.read(donationRepositoryProvider).getAllDonationByBenefactorId(user?.id??"").then((value) {
- stream.sink.add(value);
- });
+//  ref.read(donationRepositoryProvider).getAllDonationByBenefactorId(user?.id??"").then((value) {
+//  stream.sink.add(value);
+//  });
     
-   return stream.stream;
+//    return stream.stream;
+return SteamDontaionNotifiner(ref)..init();
 
 });
 
 
 
 
+class SteamDontaionNotifiner extends StateNotifier<AsyncValue<List<Donation>>>{
+  SteamDontaionNotifiner(this.ref):super(const AsyncLoading());
+Ref ref;
 
+  void init(){
+    state=const AsyncLoading();
+    final user=ref.read(authNotiferProvider).currentUser;
+  final repostory=ref.read(donationRepositoryProvider);
+    Supabase.instance.client.realtime.channel('public:${Tabels.donation}').on(RealtimeListenTypes.postgresChanges,
+    ChannelFilter(event: '*', schema: 'public', table: Tabels.donation,),
+    (payload, [ref]) async{
+      
+      
+     repostory.getAllDonationByBenefactorId(user?.id??"").then((value) {
+      state=AsyncData(value);
+
+     });
+
+}).subscribe();
+
+ ref.read(donationRepositoryProvider).getAllDonationByBenefactorId(user?.id??"").then((value) {
+      state=AsyncData(value);
+ });
+    
+  }
+  
+}
 
 
 

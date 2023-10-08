@@ -133,6 +133,7 @@ class ProfileBeneforPage extends ConsumerWidget {
                           children: [
                             const Text("معلومات الحساب"),
                             TextBoxFieldWidget(
+                            readOnly: true,
                               controlName: "userImformation.username",
                               label: "اسم المستخدم",
                               validationMessages: {
@@ -143,6 +144,16 @@ class ProfileBeneforPage extends ConsumerWidget {
                             ),
                             SizedBox(
                               height: 30.h,
+                            ),
+                            TextBoxFieldWidget(
+                              readOnly: true,
+                              controlName: "userImformation.email",
+                              label: "البريد",
+                              validationMessages: {
+                                ValidationMessage.required: (p0) => "حقل مطلوب",
+                                ValidationMessage.minLength: (p0) =>
+                                    "اسم المستخدم من ستة حقول على الأقل"
+                              },
                             ),
                             // ReactiveFormConsumer(
                             //   builder:(context, formGroup, child)  {

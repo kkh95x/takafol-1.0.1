@@ -10,7 +10,6 @@ import 'package:takafol/src/admin_management/presentation/pages/admin_home_page.
 import 'package:takafol/src/admin_management/presentation/pages/admin_nav_page.dart';
 import 'package:takafol/src/admin_management/presentation/pages/admin_profile_page.dart';
 import 'package:takafol/src/benefactor_management/application/index_bottom_provider.dart';
-import 'package:takafol/src/benefactor_management/presentation/pages/benefactor_home_page.dart';
 import 'package:takafol/src/benefactor_management/presentation/pages/benefactor_nave_bar.dart';
 import 'package:takafol/src/benefactor_management/presentation/pages/donations_page.dart';
 import 'package:takafol/src/benefactor_management/presentation/pages/map_page.dart';
@@ -82,12 +81,7 @@ final routerProvider = StateProvider<GoRouter>((ref) {
             builder: (context, state, child) =>
                 BenefactorScaffoldWithNavBarPage(child: child),
             routes: [
-              GoRoute(
-                parentNavigatorKey: benefactor,
-                path: "/benefactor${BenefactorHomePage.routePath}",
-                name: BenefactorHomePage.routeName,
-                builder: (context, state) => const BenefactorHomePage(),
-              ),
+           
                GoRoute(
                 parentNavigatorKey: benefactor,
                 path: "/benefactor${ProfileBeneforPage.routePath}",
@@ -199,7 +193,7 @@ final routerProvider = StateProvider<GoRouter>((ref) {
               case AccountType.needy:
                return "/needy${NeedyDonationsPage.routePath}";
               case AccountType.benfactor:
-                return "/benefactor${BenefactorHomePage.routePath}";
+                return "/benefactor${ProfileBeneforPage.routePath}";
 
               case AccountType.admin:
                 switch (auth.currentUser?.admin?.adminType) {
@@ -223,8 +217,7 @@ final routerProvider = StateProvider<GoRouter>((ref) {
           if (isAuth) {
             switch (auth.currentUser?.accountType) {
               case AccountType.needy:
-                //TODO hande this for needy
-                break;
+                return NeedyProfile.routePath;
               case AccountType.benfactor:
                 return "/benefactor${ProfileBeneforPage.routePath}";
 

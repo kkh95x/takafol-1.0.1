@@ -7,7 +7,7 @@ part of 'supabase_notification_repository.dart';
 // **************************************************************************
 
 String _$notificationRepositoryHash() =>
-    r'a16e56f9dbee81c0138595c693b537c2b7f3c9f2';
+    r'59cf1f0c21808486687451269f91a52abc0c01f8';
 
 /// See also [notificationRepository].
 @ProviderFor(notificationRepository)

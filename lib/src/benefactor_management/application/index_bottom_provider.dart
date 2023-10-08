@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:takafol/src/benefactor_management/presentation/pages/benefactor_home_page.dart';
 import 'package:takafol/src/benefactor_management/presentation/pages/donations_page.dart';
 import 'package:takafol/src/benefactor_management/presentation/pages/map_page.dart';
 import 'package:takafol/src/benefactor_management/presentation/pages/profile_benefor_page.dart';
@@ -52,7 +51,7 @@ class StateBottom extends StateNotifier<int> {
       // Set default page to profile
       default:
         globalKeyNav.currentState?.context
-            .go("/benefactor${BenefactorHomePage.routePath}");
+            .go("/benefactor${ProfileBeneforPage.routePath}");
     }
   }
 }

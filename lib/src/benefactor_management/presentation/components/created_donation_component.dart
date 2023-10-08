@@ -24,7 +24,7 @@ class DonationCreatedComponent extends ConsumerWidget {
                   const Spacer(),
                   IconButton(
                       onPressed: ()async {
-                    ref.refresh(streamMyDonations);
+                    ref.refresh(streamMyDonations.notifier).init();
                       },
                       icon: const Icon(Icons.refresh)),
            

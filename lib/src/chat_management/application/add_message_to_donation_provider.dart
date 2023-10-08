@@ -50,11 +50,13 @@ final addMessageToDonationProvider=Provider.autoDispose.family<Message,AddMessag
     ref.read(donationRepositoryProvider).getDonationById(donationId).then((donation) {
       final user=ref.read(authNotiferProvider).currentUser;
       final isNeedy=user?.accountType==AccountType.needy;
+
+
  ref.read(notificationServiceProvider).createNotification(AppNotification(title: "رسالة جديدة", body:"لديك رسالة جديدة في التبرع ${donation?.title}", 
  from:
  isNeedy?donation!.needy!:donation!.benfactor!,
  
-refreanceId:isNeedy? donation.needy?.id??"":donation.benfactor?.id??"", type: NotificationType.donation, extra: ""));
+refreanceId:isNeedy? donation.benfactor?.id??"":donation.needy?.id??"", type: NotificationType.donation, extra: ""));
 
     });
 
@@ -78,7 +80,7 @@ switch(message.messageType){
   case MessageType.voice:
   case MessageType.image:
   try{
-    //"/data/user/0/com.example.takafol/app_flutter/1693306812281.aac"
+    //"/data/user/0/com.takafol.io/app_flutter/1693306812281.aac"
 
     final url=await ref.read(storgeServiceProvider).saveFile(File(message.fileUrl??""), "donations/messages/${message.chatId}/${DateTime.now()}.${message.fileUrl?.split(".").last}");
 

@@ -359,10 +359,11 @@ class AuthNotifer extends StateNotifier<UserAuthState> {
   }
 
   Future<void> logout() async {
+        ref.refresh(getMyNotificationProvider.notifier).init();
+
     BotToast.showCustomLoading(
         toastBuilder: (cancelFunc) => const LoadingComponent());
     await userService.removeUserIdInShairdPref();
-    ref.refresh(getMyNotificationProvider.notifier).init();
 
     // await supabase.auth.signOut();
     state = const UserAuthState(state: AuthStatus.unAuth);

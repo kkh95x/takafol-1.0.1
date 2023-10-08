@@ -27,7 +27,7 @@ class RequestedDonationComponent extends ConsumerWidget {
                   const Spacer(),
                   IconButton(
                       onPressed: () async {
-                         ref.invalidate(streamMyDonationsNeedy);
+                         ref.read(streamMyDonationsNeedy.notifier).init();
                       },
                       icon: const Icon(Icons.refresh))
                 ],

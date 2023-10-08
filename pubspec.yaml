@@ -1,7 +1,7 @@
 name: takafol
 description: A new Flutter project.
 # publish_to: 'karimkhatib' # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+1
+version: 2.0.0+1
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -39,6 +39,7 @@ dependencies:
   reactive_forms: null
   reactive_phone_form_field: null
   reactive_pinput: null
+  rename: ^2.1.1
   riverpod: null
   riverpod_annotation: null
   shared_preferences: null

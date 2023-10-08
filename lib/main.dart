@@ -38,17 +38,9 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final botToastBuilder = BotToastInit();
-    final user=ref.read(authNotiferProvider).currentUser;
-    if(user!=null){
-       Supabase.instance.client.realtime.channel('public:${Tabels.notification}').on(RealtimeListenTypes.postgresChanges,
-    ChannelFilter(event: 'INSERT', schema: 'public', table: Tabels.notification,filter:"refreanceId=e.${user.id}" ),
-    (payload, [ref]) async{
-      BotToast.showSimpleNotification(title: payload['title'],subTitle: payload['body']);
+   
 
 
-     }).subscribe();
-
-}
     
    
 

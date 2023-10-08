@@ -353,14 +353,15 @@ class DetalisComponent extends ConsumerWidget {
                                                         newState: DonationState.rejectFromNeed,
                                                         donation: donation))
                                                 .future);
-
+final user=ref.read(authNotiferProvider).currentUser;
+      final isNeedy=user?.accountType==AccountType.needy;
                                             ref.read(notificationServiceProvider).createNotification(AppNotification(title: "تم رفض التبرع", body:"قام أحد الستفيدين برفض تبرعك يرجى مراجعة التبرعات لمزيد من التفاصيل", from: UserInformation(
 id: user?.id,
 accountType: user?.accountType,
 birthDay: user?.birthday,
 imageUrl: user?.imageUrl,
 name: user?.secoundName
-), refreanceId: donation.benfactor?.id??"", type: NotificationType.donation, extra: ""));
+), refreanceId:isNeedy? donation.benfactor?.id??"":donation.needy?.id??"", type: NotificationType.donation, extra: ""));
                                           },
                                           child: const Text("نعم")),
                                       ElevatedButton(
@@ -406,13 +407,15 @@ name: user?.secoundName
                                                         newState: DonationState.acypt,
                                                         donation: donation))
                                                 .future);
+                                                final user=ref.read(authNotiferProvider).currentUser;
+      final isNeedy=user?.accountType==AccountType.needy;
                                                  ref.read(notificationServiceProvider).createNotification(AppNotification(title: "${donation.title} تم قبول التبرع", body:"قام أحد الستفيدين بقبول تبرعك يرجى مراجعة التبرعات لمزيد من التفاصيل", from: UserInformation(
 id: user?.id,
 accountType: user?.accountType,
 birthDay: user?.birthday,
 imageUrl: user?.imageUrl,
 name: user?.secoundName
-), refreanceId: donation.needy?.id??"", type: NotificationType.donation, extra: ""));
+), refreanceId:isNeedy? donation.benfactor?.id??"": donation.needy?.id??"", type: NotificationType.donation, extra: ""));
                                           },
                                           child: const Text("نعم")),
                                       ElevatedButton(

@@ -14,6 +14,7 @@ class TextBoxFieldWidget extends ConsumerWidget {
       this.textDirection,
       this.keyboardType,
       this.lines = 1,
+      this.readOnly=false,
       super.key});
   final String controlName;
   final String label;
@@ -24,6 +25,7 @@ class TextBoxFieldWidget extends ConsumerWidget {
   final TextInputAction? inputAction;
   final TextInputType? keyboardType;
   final int lines;
+  final bool readOnly;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     
@@ -32,6 +34,7 @@ class TextBoxFieldWidget extends ConsumerWidget {
     //   validationMessages.[ValidationMessage.required]=(p0) => "حقل مطلوب";
     return ReactiveTextField(
       maxLines: lines,
+      readOnly: readOnly,
       keyboardType: keyboardType,
       textDirection: TextDirection.rtl,
       formControlName: controlName,

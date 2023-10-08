@@ -66,7 +66,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '882733031604',
     projectId: 'takafl21',
     storageBucket: 'takafl21.appspot.com',
-    iosBundleId: 'com.example.takafol',
+    iosBundleId: 'com.takafol.io',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -75,6 +75,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '882733031604',
     projectId: 'takafl21',
     storageBucket: 'takafl21.appspot.com',
-    iosBundleId: 'com.example.takafol',
+    iosBundleId: 'com.takafol.io',
   );
 }

@@ -113,6 +113,7 @@ final createDonationProvider = FutureProvider.autoDispose
     BotToast.showText(text: "تم إرسال التبرع بنجاح");
    params.formGroup.reset();
           form.control("note.images").value=<String>[];
+
 ref.read(notificationServiceProvider).createNotification(AppNotification(title: "تبرع جديد", body: "لديك تبرع جديد اذهب لصفحة التبرعات لرؤية التفاصيل", from: UserInformation(
 id: user?.id,
 accountType: user?.accountType,
